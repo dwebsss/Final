@@ -9,9 +9,9 @@ public class Main {
     Scanner mainScan = new Scanner(System.in);
     while(mainChecker){
             try{
-                throw new myExcept();
+                throw new MyException();
             }
-            catch(myExcept e){
+            catch(MyException e){
 
             }
         }
@@ -54,10 +54,10 @@ class MainMenu extends Menus<Integer>{
                 mainSelection = mainScan.nextInt();
                 mainScan.close();
                 if(mainSelection>2 || mainSelection<0){
-                    throw new myExcept();
+                    throw new MyException();
                 }
             }
-            catch (myExcept | Exception e){
+            catch (MyException | Exception e){
                 System.out.println("invalid input!");
             }
             finally {
@@ -84,10 +84,10 @@ class StudentManagement extends Menus<Character>{
                 studentSelection = studentScan.next().charAt(0);
                 studentScan.close();
                 if(studentSelection != ('a'|'b'|'c'|'d'|'e')){
-                    throw new myExcept();
+                    throw new MyException();
                 }
             }
-            catch (myExcept | Exception e){
+            catch (MyException | Exception e){
                 System.out.println("invalid input!");
             }
             finally {
@@ -106,9 +106,9 @@ class StudentManagement extends Menus<Character>{
     }
 }
 
-class CourseManagement extends Menus{
+class CourseManagement extends Menus<Integer>{
     @Override
-    public int menuPromptAndSelect() {
+    public Integer menuPromptAndSelect() {
         return 0;
     }
 
