@@ -17,7 +17,7 @@ public class Main {
         }
     }
 }
-class myExcept extends Throwable{
+class MyException extends Throwable{
 
 }
 abstract class Menus<T>{
@@ -26,7 +26,7 @@ abstract class Menus<T>{
   abstract public void menuSelectCheck();
 }
 
-class MainMenu extends Menus{
+class MainMenu extends Menus<Integer>{
     StudentManagement studentManagementMenu = new StudentManagement();
     CourseManagement courseManagementMenu = new CourseManagement();
     boolean whileToggle = true;
@@ -44,7 +44,7 @@ class MainMenu extends Menus{
 
     }
     @Override
-    public int menuPromptAndSelect(){
+    public Integer menuPromptAndSelect(){
         boolean toggle = true;
         int mainSelection = 0;
         while (toggle) {
@@ -71,10 +71,10 @@ class MainMenu extends Menus{
     }
 
 }
-class StudentManagement extends Menus{
+class StudentManagement extends Menus<Character>{
     //student management initial prompt code
     @Override
-    public int menuPromptAndSelect(){
+    public Character menuPromptAndSelect(){
         boolean toggle = true;
         char studentSelection = ' ';
         while (toggle) {
