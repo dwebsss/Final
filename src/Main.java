@@ -37,8 +37,8 @@ class MainMenu extends Menus<Integer>{
         switch (userSelection){
             case 0->{ System.out.println("Goodbye!");
             System.exit(0);}
-            case 1->{studentManagementMenu.menuSelectCheck();}
-            case 2->{courseManagementMenu.menuSelectCheck();}
+            case 1->studentManagementMenu.menuSelectCheck();
+            case 2->courseManagementMenu.menuSelectCheck();
             default -> {System.out.println("fatal error! program will shutdown");System.exit(1);}
         }
 
@@ -140,4 +140,8 @@ class  MSStudent extends GraduateStudent{
     public void printInvoice(){
 
     }
+}
+
+class Courses{
+
 }
