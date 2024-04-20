@@ -1,6 +1,6 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
+ 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
@@ -80,10 +80,10 @@ class StudentManagement extends Menus<Character> {
         while (toggle) {
             try {
                 Scanner studentScan = new Scanner(System.in);
-                System.out.println("a. add a student\nb. search for a student by id\nc. delete a student\nd. print the fee invoice of a student by id.\ne. Print all students");
+                System.out.println("a. add a student\nb. search for a student by id\nc. delete a student\nd. print the fee invoice of a student by id.\ne. Print all students"); // will change
                 studentSelection = studentScan.next().charAt(0);
                 studentScan.close();
-                if(studentSelection != ('a'|'b'|'c'|'d'|'e')){
+                if(studentSelection != ('a'|'b'|'c'|'d'|'e')){ // will change
                     throw new myExcept();
                 }
             }
@@ -91,7 +91,7 @@ class StudentManagement extends Menus<Character> {
                 System.out.println("invalid input!");
             }
             finally {
-                if(studentSelection ==('a'|'b'|'c'|'d'|'e') ) {
+                if(studentSelection ==('a'|'b'|'c'|'d'|'e') ) { // will change
                     toggle = false;
                 }
             }
