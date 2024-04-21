@@ -18,7 +18,7 @@ public class Main { //main class where all the classes and methods will be calle
         }
     }
 }
-class MyException extends Throwable {
+class MyException extends  Throwable {
 
 }
 abstract class Menus<T> {//abstract class for all menus to be based off
