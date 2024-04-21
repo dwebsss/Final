@@ -3,11 +3,12 @@ import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
+
+public class Main { //main class where all the classes and methods will be called
     public static void main(String[] args) {
-        boolean mainChecker = true;
-        Scanner mainScan = new Scanner(System.in);
-        while(mainChecker){
+        boolean mainChecker = true; //boolean variable to toggle the while loop for the main menu
+        Scanner mainScan = new Scanner(System.in);  //main scanner for user input
+        while(mainChecker){ // while loop for main body to maintain the main menu until user exits the program.
             try{
                 throw new MyException();
             }
@@ -20,26 +21,26 @@ public class Main {
 class MyException extends Throwable {
 
 }
-abstract class Menus<T> {
-    abstract public T menuPromptAndSelect();
+abstract class Menus<T> {//abstract class for all menus to be based off
+    abstract public T menuPromptAndSelect(); // method that prints out the menu prompt and store the user's input selection
 
-    abstract public void menuSelectCheck();
+    abstract public void menuSelectCheck(); //takes in the user's input preformed by the first class and preforms and action based on the user's input
 }
 
 class MainMenu extends Menus<Integer> {
-    StudentManagement studentManagementMenu = new StudentManagement();
-    CourseManagement courseManagementMenu = new CourseManagement();
-    boolean whileToggle = true;
+    StudentManagement studentManagementMenu = new StudentManagement(); //studentMenu object for the Mainmenu class to access the student menu overriden method
+    CourseManagement courseManagementMenu = new CourseManagement(); //studentMenu object for the Mainmenu class to access the student menu overriden method
+    boolean whileToggle = true; // another boolean variable to maintain a while loop until a certain breakpoint
     @Override
-    public void menuSelectCheck() {
+    public void menuSelectCheck() { //takes in the user input stored in the menuPrompt class
         int userSelection  = -1;
-        userSelection = menuPromptAndSelect();
+        userSelection = menuPromptAndSelect(); //internal variable is set to the user input(which is stored in the prompt class
         switch (userSelection){
-            case 0->{ System.out.println("Goodbye!");
+            case 0->{ System.out.println("Goodbye!"); //case where user selects the exit option and the program is terminated
                 System.exit(0);}
-            case 1->{studentManagementMenu.menuSelectCheck();}
-            case 2->{courseManagementMenu.menuSelectCheck();}
-            default -> {System.out.println("fatal error! program will shutdown");System.exit(1);}
+            case 1->{studentManagementMenu.menuSelectCheck();}//case where student selects the student management option, uses the student object
+            case 2->{courseManagementMenu.menuSelectCheck();}//case where student selects the course management option, uses the course object
+            default -> {System.out.println("fatal error! program will shutdown");System.exit(1);}// this default should never be reached as the main code block catches all mismatched user inputs and exceptions, therefore if it is somehow reached it will be treated as an error and the program will be closed
         }
 
     }
@@ -102,7 +103,15 @@ class StudentManagement extends Menus<Character> {
 
     @Override
     public void menuSelectCheck() {
-
+        char sMenuSelection;
+        sMenuSelection = menuPromptAndSelect();
+        switch (sMenuSelection){
+            case 'a'->{}
+            case 'b'->{}
+            case 'c'->{}
+            case 'd'->{}
+            case 'e'->{}
+        }
     }
 }
 
