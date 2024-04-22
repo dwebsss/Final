@@ -226,77 +226,101 @@ abstract class GraduateStudent extends Student {
     public GraduateStudent (String name, String id) {
         super(name, id);
     }
+}
+
+class PHDStudent extends GraduateStudent {
+
+    // Data
+    private int[] labsSupervised;
+    private String advisor;
+    private String researchSubject;
+
+    // Setters and Getters
+    public int[] getlabsSupervised() {
+        return labsSupervised;
     }
 
-    class PHDStudent extends GraduateStudent {
+    public void setLabsSupervised(int[] labsSupervised) {
+        this.labsSupervised = labsSupervised;
+    }
 
-        // Data
-        private int[] labsSupervised;
-        private String advisor;
-        private String researchSubject;
+    public String getAdvisor() {
+        return advisor;
+    }
 
-        // Setters and Getters
-        public int[] getlabsSupervised() {
-            return labsSupervised;
-        }
+    public void setAdvisor(String advisor) {
+        this.advisor = advisor;
+    }
 
-        public void setLabsSupervised(int[] labsSupervised) {
-            this.labsSupervised = labsSupervised;
-        }
+    public String getResearchSubject() {
+        return researchSubject;
+    }
 
-        public String getAdvisor() {
-            return advisor;
-        }
+    public void setResearchSubject(String researchSubject) {
+        this.researchSubject = researchSubject;
+    }
 
-        public void setAdvisor(String advisor) {
-            this.advisor = advisor;
-        }
+    // Constructor
+    public PHDStudent(String name, String id, int[] labsSupervised, String advisor, String researchSubject) {
+        super(name, id);
+        this.labsSupervised = labsSupervised.clone();
+        this.advisor = advisor;
+        this.researchSubject = researchSubject;
+    }
 
-        public String getResearchSubject() {
-            return researchSubject;
-        }
+    // Function to get total cost for a PHD student
+    // ...
 
-        public void setResearchSubject(String researchSubject) {
-            this.researchSubject = researchSubject;
-        }
-
-        // Constructor
-        public PHDStudent(String name, String id, int[] labsSupervised, String advisor, String researchSubject) {
-            super(name, id);
-            this.labsSupervised = labsSupervised.clone();
-            this.advisor = advisor;
-            this.researchSubject = researchSubject;
-        }
-
-        // Function to get total cost for a PHD student
+    @Override
+    public void printInvoice() {
         // ...
-
-        @Override
-        public void printInvoice() {
-            // ...
-        }
     }
-    class  MSStudent extends GraduateStudent {
+}
+class  MSStudent extends GraduateStudent {
 
-        // Data
-        private int[] gradCrnsTaken;
+    // Data
+    private int[] gradCrnsTaken;
 
-        // Setter and getter
-        public int[] getGradCrnsTaken() {
-            return gradCrnsTaken;
-        }
-
-        public void setGradCrnsTaken(int[] gradCrnsTaken) {
-            this.gradCrnsTaken = gradCrnsTaken;
-        }
-
-        // Constructor
-        public MSStudent(String name, String id, int[] gradCrnsTaken) {
-            super(name, id);
-            this.gradCrnsTaken = gradCrnsTaken.clone();
-
-        }
-        public void printInvoice(){
-            // ...
-        }
+    // Setter and getter
+    public int[] getGradCrnsTaken() {
+        return gradCrnsTaken;
     }
+
+    public void setGradCrnsTaken(int[] gradCrnsTaken) {
+        this.gradCrnsTaken = gradCrnsTaken;
+    }
+
+    // Constructor
+    public MSStudent(String name, String id, int[] gradCrnsTaken) {
+        super(name, id);
+        this.gradCrnsTaken = gradCrnsTaken.clone();
+
+    }
+    public void printInvoice(){
+        // ...
+    }
+}
+
+
+class Node {
+    private Student e;
+    private Node next;
+
+    public Node(Student e){
+        this.e=e;
+        this.next=null;
+    }
+
+    public Student getStudent(){
+        return e;
+    }
+    
+    public Node getNext(){
+        return next;
+    }
+    
+    public void setNext(Node next) {
+        this.next = next;
+    }
+
+}
