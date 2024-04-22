@@ -301,8 +301,10 @@ class  MSStudent extends GraduateStudent {
     }
 }
 
-
+//Node class that houses individual student 
+//Points to next student
 class Node {
+
     private Student e;
     private Node next;
 
@@ -318,9 +320,43 @@ class Node {
     public Node getNext(){
         return next;
     }
-    
+
     public void setNext(Node next) {
         this.next = next;
     }
 
+}
+
+
+//Linked List Class 
+class linkedList{
+    Node school;
+
+    public linkedList(){
+        school=null;
+    }
+
+    //Adds a new student to the linked list 
+    public void addNewStudent(Student e){
+        Node newNode=new Node(e);
+
+        //checks if the school is null if the newNode is the first student
+        if(school=null){
+            school=newNode;
+            return;
+        }
+        //Always keep the pointer to the beginning of the LinkedList
+        Node current=school;
+        //Iterates through the linked list and finds the next empty position
+        //Then sets the newStudent as that next empty position
+        while(current!=null){
+            if(current.getNext()==null){
+                current.setNext(newNode);
+                return;
+            }
+            current=current.getNext();
+        }
+    }  
+    //Implementing the delete student function
+    //public void deleteStudent(String)
 }
