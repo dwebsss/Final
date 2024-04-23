@@ -421,6 +421,21 @@ class studentLinkedList{
         return;
     }
 
+    //print fee invoice based on Id
+    public void printFeeInvoice(String id){
+        if (school == null){
+            return;
+        }
 
-    //Implement print fee invoice 
+        studentNode current= school;
+        while (current != null){
+            if(current.getStudent().getId()== id){
+                current.getStudent.printFeeInvoice();
+                return;
+            }
+            current=current.getNext();
+        }
+        return;
+    }
 }
+
