@@ -6,6 +6,13 @@ import java.util.Scanner;
 
 public class Main { //main class where all the classes and methods will be called
     public static void main(String[] args) {
+        
+        //Linked List holds all the students
+        //not sure where to initialize this based on menu objects
+        studentLinkedList school= new studentLinkedList();
+
+
+
         boolean mainChecker = true; //boolean variable to toggle the while loop for the main menu
         Scanner mainScan = new Scanner(System.in);  //main scanner for user input
         while(mainChecker){ // while loop for main body to maintain the main menu until user exits the program.
@@ -106,11 +113,32 @@ class StudentManagement extends Menus<Character> {
         char sMenuSelection;
         sMenuSelection = menuPromptAndSelect();
         switch (sMenuSelection){
-            case 'a'->{}
-            case 'b'->{}
-            case 'c'->{}
-            case 'd'->{}
-            case 'e'->{}
+            case 'a'->{
+                //get input Maybe w/ scanner
+                //Student newStudent= new UndergraduateStudent (info,info,info);
+
+
+                /*school.addNewStudent(newStudent);*/
+                }//Add studeent 
+            case 'b'->{
+                //get input w/ Scanner
+
+
+                /*school.searchStudent(id);*/
+                }//Search Student
+            case 'c'->{
+                //get input w/ scanner
+
+
+                /*school.deleteStudent(id);*/
+                }//Delete a student
+            case 'd'->{
+                
+                //get input w/ scanner
+                
+                /*school.printFeeInvoice(id);
+                */}//Print Fee invoice 
+            case 'e'->{/*school.printListStudents()*/}//Print all students 
         }
     }
 }
@@ -217,7 +245,30 @@ class UndergraduateStudent extends Student{
 
     @Override
     public void printInvoice() {
-        /// ...
+        double price= 0;
+        double baseprice=120.25;
+        double health= 35.00;
+
+
+        System.out.println("VALENCE COLLEGE\nORLANDO FL 10101");
+        System.out.println("-----------------------------");
+        System.out.println(getId()+"-" + getName());
+        System.out.println("\n1 Credit Hour = $"+baseprice);
+        System.out.println("CRN\tCR_PREFIX\tCR_HOURS");
+
+        //loop through the classes they are taking
+
+
+        //
+        System.out.println("\t\tHealth & id Fees  $ "+health);
+        System.out.println("\n---------------------------------");
+        if(gpa>=3.5){
+
+        }else{
+            System.out.println("\t\tTOTAL PAYMENTS\t\t$ "+ price);
+        }
+
+        
     }
 }
 
@@ -407,7 +458,7 @@ class studentLinkedList{
     
 
     //Prints all students in the linked list
-
+    //implementation for grouping based on class
     public void printListStudents(){
         if (school== null){
             return;
@@ -430,7 +481,7 @@ class studentLinkedList{
         studentNode current= school;
         while (current != null){
             if(current.getStudent().getId()== id){
-                current.getStudent.printFeeInvoice();
+                current.getStudent().printInvoice();
                 return;
             }
             current=current.getNext();
