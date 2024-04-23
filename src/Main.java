@@ -301,14 +301,16 @@ class  MSStudent extends GraduateStudent {
     }
 }
 
+
+
 //Node class that houses individual student 
 //Points to next student
-class Node {
+class studentNode {
 
     private Student e;
-    private Node next;
+    private studentNode next;
 
-    public Node(Student e){
+    public studentNode(Student e){
         this.e=e;
         this.next=null;
     }
@@ -317,11 +319,11 @@ class Node {
         return e;
     }
     
-    public Node getNext(){
+    public studentNode getNext(){
         return next;
     }
 
-    public void setNext(Node next) {
+    public void setNext(studentNode next) {
         this.next = next;
     }
 
@@ -329,24 +331,24 @@ class Node {
 
 
 //Linked List Class 
-class linkedList{
-    Node school;
+class studentLinkedList{
+    studentNode school;
 
-    public linkedList(){
+    public studentLinkedList(){
         school=null;
     }
 
     //Adds a new student to the linked list 
     public void addNewStudent(Student e){
-        Node newNode=new Node(e);
+        studentNode newNode=new studentNode(e);
 
         //checks if the school is null if the newNode is the first student
-        if(school=null){
+        if(school==null){
             school=newNode;
             return;
         }
         //Always keep the pointer to the beginning of the LinkedList
-        Node current=school;
+        studentNode current=school;
         //Iterates through the linked list and finds the next empty position
         //Then sets the newStudent as that next empty position
         while(current!=null){
@@ -356,7 +358,69 @@ class linkedList{
             }
             current=current.getNext();
         }
-    }  
-    //Implementing the delete student function
-    //public void deleteStudent(String)
+    }
+
+    //search the student by id
+    public void searchStudent(String id){
+        
+        studentNode current=school;
+        while (current != null){
+            if (current.getStudent().getId()== id){
+                System.out.println(current.getStudent());
+                return;
+            }
+            current=current.getNext();
+        }
+        System.out.println("Student Not Found");
+        return;
+    } 
+
+    //Deletes the student by id
+    public void deleteStudent(String id){
+        
+        //if there are no students in the school
+        if(school==null){
+            return;
+        }
+
+        //if the first student is being deleted
+        if(school.getStudent().getId()== id){
+            school=school.getNext();
+            return;
+        }
+
+        studentNode prev=school;
+        studentNode current=school.getNext();
+
+        while(current!=null){
+            if (current.getStudent().getId()==id){
+                prev.setNext(current.getNext());
+                System.out.println(current.getStudent().getName()+" Has Been Successfully Deleted");
+                return;
+            }
+            prev=current;
+            current=current.getNext();
+        }
+        System.out.println("Student Not Found");
+        return;
+    } 
+    
+
+    //Prints all students in the linked list
+
+    public void printListStudents(){
+        if (school== null){
+            return;
+        }
+
+        studentNode current=school;
+        while(current!= null){
+            System.out.println("- "+current.getStudent().getName());
+            current=current.getNext();
+        }
+        return;
+    }
+
+
+    //Implement print fee invoice 
 }
