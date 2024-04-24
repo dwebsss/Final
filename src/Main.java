@@ -131,6 +131,7 @@ class StudentManagement extends Menus<Character> {
     public void menuSelectCheck() {
         char sMenuSelection;
         sMenuSelection = menuPromptAndSelect();
+        Scanner addStudent= new Scanner(System.in);
         switch (sMenuSelection){
             case 'a'->{
 
@@ -138,12 +139,17 @@ class StudentManagement extends Menus<Character> {
                 double gpa;  
                 int classes;
 
-                Scanner addStudent= new Scanner(System.in);
+                
 
 
-                //getting the students Info
+                //getting the students Info try statement if the ID is not in the format specified
+                //try{
                 System.out.println("What Is The Student's ID:");
                 id=addStudent.nextLine();
+
+                //}
+               
+
                 System.out.println("What Is The Student's Name:");
                 name=addStudent.nextLine();
                 System.out.println("What Is The Students GPA");
@@ -165,6 +171,7 @@ class StudentManagement extends Menus<Character> {
                         addStudent.nextLine();//discard '\n'
                     }
                     System.out.println("Are They A Resident");
+                    //not sure what this is?
 
 
                     //creating student
@@ -318,17 +325,18 @@ class UndergraduateStudent extends Student{
         double health= 35.00;
 
 
-        System.out.println("VALENCE COLLEGE\nORLANDO FL 10101");
+        System.out.println("\nVALENCE COLLEGE\nORLANDO FL 10101");
         System.out.println("-----------------------------");
         System.out.println(getId()+"-" + getName());
         System.out.println("\n1 Credit Hour = $"+baseprice);
         System.out.println("CRN\tCR_PREFIX\tCR_HOURS");
 
         //loop through the classes they are taking
-
-
+        for (int i=0;i<this.undergradCrnsTaken.length;i++){
+            System.out.printf("\n%d\t%s\t\t%d",undergradCrnsTaken[i],undergradCrnsTaken[i],undergradCrnsTaken[i]);
+        }
         //
-        System.out.println("\t\tHealth & id Fees  $ "+health);
+        System.out.println("\n\t\tHealth & id Fees  $ "+health);
         System.out.println("\n---------------------------------");
         if(gpa>=3.5){
 
@@ -484,7 +492,7 @@ class studentLinkedList{
         
         studentNode current=school;
         while (current != null){
-            if (current.getStudent().getId()== id){
+            if (current.getStudent().getId().equals(id)){
                 System.out.println(current.getStudent());
                 return;
             }
@@ -503,7 +511,7 @@ class studentLinkedList{
         }
 
         //if the first student is being deleted
-        if(school.getStudent().getId()== id){
+        if(school.getStudent().getId().equals(id)){
             school=school.getNext();
             return;
         }
@@ -512,7 +520,7 @@ class studentLinkedList{
         studentNode current=school.getNext();
 
         while(current!=null){
-            if (current.getStudent().getId()==id){
+            if (current.getStudent().getId().equals(id)){
                 prev.setNext(current.getNext());
                 System.out.println(current.getStudent().getName()+" Has Been Successfully Deleted");
                 return;
@@ -548,7 +556,7 @@ class studentLinkedList{
 
         studentNode current= school;
         while (current != null){
-            if(current.getStudent().getId()== id){
+            if(current.getStudent().getId().equals(id)){
                 current.getStudent().printInvoice();
                 return;
             }
