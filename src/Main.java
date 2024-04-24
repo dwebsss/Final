@@ -10,13 +10,14 @@ public class Main { //main class where all the classes and methods will be calle
         //Linked List holds all the students
         //not sure where to initialize this based on menu objects
         studentLinkedList school= new studentLinkedList();
-
+        Menus menu= new MainMenu();
 
 
         boolean mainChecker = true; //boolean variable to toggle the while loop for the main menu
         Scanner mainScan = new Scanner(System.in);  //main scanner for user input
         while(mainChecker){ // while loop for main body to maintain the main menu until user exits the program.
             try{
+                menu.menuSelectCheck();
                 throw new MyException();
             }
             catch(MyException e){
@@ -44,9 +45,9 @@ class MainMenu extends Menus<Integer> {
         userSelection = menuPromptAndSelect(); //internal variable is set to the user input(which is stored in the prompt class
         switch (userSelection){
             case 0->{ System.out.println("Goodbye!"); //case where user selects the exit option and the program is terminated
-                System.exit(0);}
-            case 1->{studentManagementMenu.menuSelectCheck();}//case where student selects the student management option, uses the student object
-            case 2->{courseManagementMenu.menuSelectCheck();}//case where student selects the course management option, uses the course object
+                System.exit(0);break;}
+            case 1->{studentManagementMenu.menuSelectCheck();break;}//case where student selects the student management option, uses the student object
+            case 2->{courseManagementMenu.menuSelectCheck();break;}//case where student selects the course management option, uses the course object
             default -> {System.out.println("fatal error! program will shutdown");System.exit(1);}// this default should never be reached as the main code block catches all mismatched user inputs and exceptions, therefore if it is somehow reached it will be treated as an error and the program will be closed
         }
 
@@ -85,9 +86,11 @@ class StudentManagement extends Menus<Character> {
     public Character menuPromptAndSelect() {
         boolean toggle = true;
         char studentSelection = ' ';
+
+        //create the scanner outside the while loop FIX
+        Scanner studentScan = new Scanner(System.in);
         while (toggle) {
             try {
-                Scanner studentScan = new Scanner(System.in);
                 System.out.println("a. add a student\nb. search for a student by id\nc. delete a student\nd. print the fee invoice of a student by id.\ne. Print all students"); // will change
                 studentSelection = studentScan.next().charAt(0);
                 studentScan.close();
@@ -151,7 +154,7 @@ class CourseManagement extends Menus<Integer> {
 
     @Override
     public void menuSelectCheck() {
-
+        System.out.println("Works");
     }
 }
 
