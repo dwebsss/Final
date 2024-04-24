@@ -5,24 +5,19 @@ import java.util.Scanner;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 
 public class Main { //main class where all the classes and methods will be called
+    static studentLinkedList school= new studentLinkedList();
     public static void main(String[] args) {
         
         //Linked List holds all the students
         //not sure where to initialize this based on menu objects
-        studentLinkedList school= new studentLinkedList();
+        
         Menus menu= new MainMenu();
 
 
         boolean mainChecker = true; //boolean variable to toggle the while loop for the main menu
-        Scanner mainScan = new Scanner(System.in);  //main scanner for user input
+        //main scanner for user input // ?? WHY? you arent scanning for anything in main only in the class??
         while(mainChecker){ // while loop for main body to maintain the main menu until user exits the program.
-            try{
-                menu.menuSelectCheck();
-                throw new MyException();
-            }
-            catch(MyException e){
-
-            }
+            menu.menuSelectCheck();
         }
     }
 }
@@ -38,7 +33,11 @@ abstract class Menus<T> {//abstract class for all menus to be based off
 class MainMenu extends Menus<Integer> {
     StudentManagement studentManagementMenu = new StudentManagement(); //studentMenu object for the Mainmenu class to access the student menu overriden method
     CourseManagement courseManagementMenu = new CourseManagement(); //studentMenu object for the Mainmenu class to access the student menu overriden method
-    boolean whileToggle = true; // another boolean variable to maintain a while loop until a certain breakpoint
+    boolean whileToggle = true; // another boolean variable to maintain a while loop until a certain breakpoint ??why this is never used??
+    
+
+
+    //ADDED BREAK STATEMENTS 
     @Override
     public void menuSelectCheck() { //takes in the user input stored in the menuPrompt class
         int userSelection  = -1;
@@ -46,7 +45,9 @@ class MainMenu extends Menus<Integer> {
         switch (userSelection){
             case 0->{ System.out.println("Goodbye!"); //case where user selects the exit option and the program is terminated
                 System.exit(0);break;}
-            case 1->{studentManagementMenu.menuSelectCheck();break;}//case where student selects the student management option, uses the student object
+            case 1->{studentManagementMenu.menuSelectCheck();
+                        break;
+                    }//case where student selects the student management option, uses the student object
             case 2->{courseManagementMenu.menuSelectCheck();break;}//case where student selects the course management option, uses the course object
             default -> {System.out.println("fatal error! program will shutdown");System.exit(1);}// this default should never be reached as the main code block catches all mismatched user inputs and exceptions, therefore if it is somehow reached it will be treated as an error and the program will be closed
         }
@@ -55,26 +56,30 @@ class MainMenu extends Menus<Integer> {
     @Override
     public Integer menuPromptAndSelect() {
         boolean toggle = true;
-        int mainSelection = 0;
-        while (toggle) {
-            try {
-                Scanner mainScan = new Scanner(System.in);
-                System.out.println("-------------------------------------------\nMain Menu\n\n1 : Student Management\n2 : Course Management\n0 : Exit");
-                mainSelection = mainScan.nextInt();
-                mainScan.close();
-                if(mainSelection>2 || mainSelection<0){
-                    throw new MyException();
-                }
-            }
-            catch (MyException | Exception e) {
-                System.out.println("invalid input!");
-            }
-            finally {
-                if(mainSelection>=0 && mainSelection<= 2){
-                    toggle = false;
-                }
+        int mainSelection = -1;
+        Scanner mainScan = new Scanner(System.in);
+
+        //why are we looping this twice when its looped in main??
+        try {
+            System.out.println("-------------------------------------------\nMain Menu\n\n1 : Student Management\n2 : Course Management\n0 : Exit");
+            mainSelection = mainScan.nextInt();
+            // mainScan.close();//stop closing these scanner it breaks it
+            if(mainSelection!=1 || mainSelection != 2 || mainSelection != 0){
+                System.out.println("sum broke");
+                throw new MyException();
             }
         }
+        catch (MyException | Exception e) {
+            System.out.println(mainScan);
+            System.out.println(mainSelection);
+            System.out.println("invalid input!");
+        }
+        finally {
+            if(mainSelection>=0 && mainSelection<= 2){
+                toggle = false;
+            }
+        }
+
         return mainSelection;
 
     }
@@ -82,6 +87,9 @@ class MainMenu extends Menus<Integer> {
 }
 class StudentManagement extends Menus<Character> {
     //student management initial prompt code
+
+
+    //why are we looping through this??
     @Override
     public Character menuPromptAndSelect() {
         boolean toggle = true;
@@ -89,25 +97,33 @@ class StudentManagement extends Menus<Character> {
 
         //create the scanner outside the while loop FIX
         Scanner studentScan = new Scanner(System.in);
-        while (toggle) {
-            try {
-                System.out.println("a. add a student\nb. search for a student by id\nc. delete a student\nd. print the fee invoice of a student by id.\ne. Print all students"); // will change
-                studentSelection = studentScan.next().charAt(0);
-                studentScan.close();
-                if(studentSelection != ('a'|'b'|'c'|'d'|'e')){ // will change
-                    throw new MyException();
-                }
-            }
-            catch (MyException | Exception e) {
-                System.out.println("invalid input!");
-            }
-            finally {
-                if(studentSelection ==('a'|'b'|'c'|'d'|'e') ) { // will change
-                    toggle = false;
-                }
-            }
+    
+        try {
+            System.out.println("a. add a student\nb. search for a student by id\nc. delete a student\nd. print the fee invoice of a student by id.\ne. Print all students"); // will change
+            studentSelection = studentScan.next().charAt(0);
+            //studentScan.close(); //stop closing the scanner
+
+            switch (studentSelection) {
+                case 'a':
+                case 'b':
+                case 'c':
+                case 'd':   
+                case 'e':
+                    break; // valid input
+                default:
+                    throw new MyException(); // invalid input
+            }       
         }
-        return studentSelection;
+        catch (MyException | Exception e) {
+            System.out.println("invalid input!");
+        }
+        finally {
+            //this isn't necessary
+            //if(studentSelection == 'a'  studentSelection != 'b' && studentSelection != 'c' && studentSelection != 'd' && studentSelection != 'e') ) { // will change
+            //    toggle = false;
+           // }
+        }
+       return studentSelection;
 
     }
 
@@ -117,31 +133,80 @@ class StudentManagement extends Menus<Character> {
         sMenuSelection = menuPromptAndSelect();
         switch (sMenuSelection){
             case 'a'->{
-                //get input Maybe w/ scanner
-                //Student newStudent= new UndergraduateStudent (info,info,info);
+
+                String name,id, type; 
+                double gpa;  
+                int classes;
+
+                Scanner addStudent= new Scanner(System.in);
 
 
+                //getting the students Info
+                System.out.println("What Is The Student's ID:");
+                id=addStudent.nextLine();
+                System.out.println("What Is The Student's Name:");
+                name=addStudent.nextLine();
+                System.out.println("What Is The Students GPA");
+                gpa=addStudent.nextDouble();
+                addStudent.nextLine();//discard '\n'
+
+                System.out.println("What Type of Student (PhD, MS or Undergrad):");
+                type=addStudent.nextLine();
+                
+                if(type.equals("Undergrad")){
+                    System.out.println("ADDING AN : Undergrad Student");
+                    System.out.println("How Many CRNS Are They Taking");
+                    classes=addStudent.nextInt();
+                    addStudent.nextLine();//discard '\n'
+                    int undergradCrnsTaken[]=new int[classes];
+                    for (int i=0; i<classes;i++){
+                        System.out.println("What Class Number "+(i+1)+" Code");
+                        undergradCrnsTaken[i]=addStudent.nextInt();
+                        addStudent.nextLine();//discard '\n'
+                    }
+                    System.out.println("Are They A Resident");
+
+
+                    //creating student
+                    Student newStudent= new UndergraduateStudent(name,id,undergradCrnsTaken,gpa,false);
+                    Main.school.addNewStudent(newStudent);
+                }
+                //different inputs for different types of students 
+                if (type.equals("PhD")){
+                    //...
+
+                }
+
+                if(type.equals("Undergrad")){
+                    //...
+                }
+                System.out.println("STUDENT ADDED");
                 /*school.addNewStudent(newStudent);*/
                 }//Add studeent 
             case 'b'->{
-                //get input w/ Scanner
+                String id;
+                System.out.println("What Is The Student's ID:");
+                id=addStudent.nextLine();
 
-
-                /*school.searchStudent(id);*/
+                Main.school.searchStudent(id);
                 }//Search Student
             case 'c'->{
                 //get input w/ scanner
+                String id;
+                System.out.println("What Is The Student's ID:");
+                id=addStudent.nextLine();
 
-
-                /*school.deleteStudent(id);*/
+                Main.school.deleteStudent(id);
                 }//Delete a student
             case 'd'->{
                 
-                //get input w/ scanner
+                String id;
+                System.out.println("What Is The Student's ID:");
+                id=addStudent.nextLine();
                 
-                /*school.printFeeInvoice(id);
-                */}//Print Fee invoice 
-            case 'e'->{/*school.printListStudents()*/}//Print all students 
+                Main.school.printFeeInvoice(id);
+                }//Print Fee invoice 
+            case 'e'->{Main.school.printListStudents();}//Print all students 
         }
     }
 }
