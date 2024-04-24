@@ -65,13 +65,10 @@ class MainMenu extends Menus<Integer> {
             mainSelection = mainScan.nextInt();
             // mainScan.close();//stop closing these scanner it breaks it
             if(mainSelection!=1 || mainSelection != 2 || mainSelection != 0){
-                System.out.println("sum broke");
                 throw new MyException();
             }
         }
         catch (MyException | Exception e) {
-            System.out.println(mainScan);
-            System.out.println(mainSelection);
             System.out.println("invalid input!");
         }
         finally {
@@ -129,9 +126,13 @@ class StudentManagement extends Menus<Character> {
 
     @Override
     public void menuSelectCheck() {
+
+
         char sMenuSelection;
         sMenuSelection = menuPromptAndSelect();
         Scanner addStudent= new Scanner(System.in);
+
+
         switch (sMenuSelection){
             case 'a'->{
 
@@ -180,15 +181,49 @@ class StudentManagement extends Menus<Character> {
                 }
                 //different inputs for different types of students 
                 if (type.equals("PhD")){
-                    //...
+                    System.out.println("ADDING AN : PHD Student");
+                    String subject, advisorName;
+                    int labAmount, labNumbers;
+                    System.out.println("What Is The name of advisor");
+                    advisorName=addStudent.nextLine();
+                    System.out.println("What Is Their Reseach Subject");
+                    subject=addStudent.nextLine();
 
+                    System.out.println("What is the amount of labs");
+                    labAmount=addStudent.nextInt();
+                    addStudent.nextLine();//discard '\n'
+                    int labsSupervised[] = new int [labAmount];
+                    for (int i = 0; i<labAmount;i++){
+                        System.out.println("The" +(i+1)+"Lab Number is :");
+                        labsSupervised[i]=addStudent.nextInt();
+                        addStudent.nextLine();//discard '\n'
+                    }
+
+                    Student newPhdStudent= new PHDStudent(name, id, labsSupervised,advisorName,subject);
+                    Main.school.addNewStudent(newPhdStudent);
                 }
 
-                if(type.equals("Undergrad")){
-                    //...
+                if(type.equals("MS")){
+                    System.out.println("ADDING AN : Master Student");
+
+                    System.out.println("How Many CRNS Are They Taking");
+
+                    classes=addStudent.nextInt();
+                    addStudent.nextLine();//discard '\n'
+                    int gradCrnsTaken[]=new int[classes];
+                    for (int i=0; i<classes;i++){
+                        System.out.println("What Class Number "+(i+1)+" Code");
+                        gradCrnsTaken[i]=addStudent.nextInt();
+                        addStudent.nextLine();//discard '\n'
+                    }
+                    
+
+                    Student newMasterStudent= new MSStudent(name, id, gradCrnsTaken);
+                    Main.school.addNewStudent(newMasterStudent);
                 }
-                System.out.println("STUDENT ADDED");
-                /*school.addNewStudent(newStudent);*/
+
+                System.out.println(name + " ADDED");
+                
                 }//Add studeent 
             case 'b'->{
                 String id;
