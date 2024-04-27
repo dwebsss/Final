@@ -18,8 +18,9 @@ class MyException extends Throwable {
 
 }
 
-abstract class Menus<T> {//abstract class for all menus to be based off
-
+// Abstract class for all menus to be based off
+abstract class Menus<T> {
+    
     // Prints out menu prompt and stores user's input selection
     abstract public T menuPromptAndSelect();
 
@@ -261,11 +262,9 @@ class CourseManagement extends Menus<Integer> {
 
 abstract class Student {
 
-    // Data
     private String name;
     private String id;
 
-    // Setters and Getters
     public String getName() {
         return name;
     }
@@ -282,7 +281,6 @@ abstract class Student {
         this.id = id;
     }
 
-    // Constructor
     public Student(String name, String id) {
         this.name = name;
         this.id = id;
@@ -339,14 +337,17 @@ class UndergraduateStudent extends Student{
         double basePrice=120.25;
         double health= 35.00;
 
-
+        // Don't see if there is a check to see if Undergrad student is an OOS resident or not, 
+        // will add
+        // ...
+        
         System.out.println("\nVALENCE COLLEGE\nORLANDO FL 10101");
         System.out.println("-----------------------------");
         System.out.println(getId()+"-" + getName());
         System.out.println("\n1 Credit Hour = $"+basePrice);
         System.out.println("CRN\tCR_PREFIX\tCR_HOURS");
 
-        //loop through the classes they are taking
+        // Loop through classes 
         for (int i=0;i<this.undergradCrnsTaken.length;i++) {
             System.out.printf("\n%d\t%s\t\t%d",undergradCrnsTaken[i],undergradCrnsTaken[i],undergradCrnsTaken[i]);
         }
@@ -571,7 +572,6 @@ enum LectureType {
 enum LectureMode {
     F2F, MIXED, ONLINE;
 }
-//_______________________________________________________________________________
 
 class Lab {
     private String crn;
@@ -628,7 +628,7 @@ class Lecture {
     
     // _________________
 
-    //Helper method-used in constructors to set up the common fields
+    // Helper method-used in constructors to set up the common fields
     private void LectureCommonInfoSetUp (String crn, String prefix, String lectureName, LectureType lectureType, LectureMode lectureMode) {
         this.crn = crn;
         this.prefix = prefix;
@@ -655,7 +655,7 @@ class Lecture {
         this.labs = labs;
     }
     
-    // Constructor for Non-online without Labs
+    // Constructor for non-online without labs
     public Lecture( String crn, String prefix, String lectureName, LectureType lectureType, LectureMode lectureMode, String classroom,
                     boolean hasLabs, int creditHours) {
 
@@ -665,7 +665,7 @@ class Lecture {
         this.creditHours = creditHours;
     }
 
-    // Constructor for Online Lectures
+    // Constructor for online lectures
     public Lecture(String crn, String prefix, String lectureName, LectureType lectureType, LectureMode lectureMode, int creditHours) {
         LectureCommonInfoSetUp(crn,prefix,lectureName,lectureType,lectureMode);
         this.classroom = classroom;
