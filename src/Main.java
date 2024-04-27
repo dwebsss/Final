@@ -11,16 +11,7 @@ public class Main { //main class where all the classes and methods will be calle
     public static void main(String[] args) {
         //Linked List holds all the students
         //not sure where to initialize this based on menu objects
-        try {
-            Menus menu = new MainMenu();
-            File textFile = new File("lec.txt");
-            Scanner mainScan = new Scanner(textFile);
-            String data = mainScan.nextLine();
-            System.out.println(data);
-        }
-        catch(FileNotFoundException e){
-            System.out.println("exception!");
-        }
+
     }
 }
 class MyException extends Throwable {
