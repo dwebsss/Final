@@ -1,5 +1,7 @@
-import java.util.InputMismatchException;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.*;
 //AJ Test
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -7,21 +9,21 @@ import java.util.Scanner;
 public class Main { //main class where all the classes and methods will be called
     static studentLinkedList school= new studentLinkedList();
     public static void main(String[] args) {
-        
         //Linked List holds all the students
         //not sure where to initialize this based on menu objects
-        
-        Menus menu= new MainMenu();
-
-
-        boolean mainChecker = true; //boolean variable to toggle the while loop for the main menu
-        //main scanner for user input // ?? WHY? you arent scanning for anything in main only in the class??
-        while(mainChecker){ // while loop for main body to maintain the main menu until user exits the program.
-            menu.menuSelectCheck();
+        try {
+            Menus menu = new MainMenu();
+            File textFile = new File("lec.txt");
+            Scanner mainScan = new Scanner(textFile);
+            String data = mainScan.nextLine();
+            System.out.println(data);
+        }
+        catch(FileNotFoundException e){
+            System.out.println("exception!");
         }
     }
 }
-class MyException extends  Throwable {
+class MyException extends Throwable {
 
 }
 abstract class Menus<T> {//abstract class for all menus to be based off
@@ -34,7 +36,7 @@ class MainMenu extends Menus<Integer> {
     StudentManagement studentManagementMenu = new StudentManagement(); //studentMenu object for the Mainmenu class to access the student menu overriden method
     CourseManagement courseManagementMenu = new CourseManagement(); //studentMenu object for the Mainmenu class to access the student menu overriden method
     boolean whileToggle = true; // another boolean variable to maintain a while loop until a certain breakpoint ??why this is never used??
-    
+
 
 
     //ADDED BREAK STATEMENTS 
@@ -46,8 +48,8 @@ class MainMenu extends Menus<Integer> {
             case 0->{ System.out.println("Goodbye!"); //case where user selects the exit option and the program is terminated
                 System.exit(0);break;}
             case 1->{studentManagementMenu.menuSelectCheck();
-                        break;
-                    }//case where student selects the student management option, uses the student object
+                break;
+            }//case where student selects the student management option, uses the student object
             case 2->{courseManagementMenu.menuSelectCheck();break;}//case where student selects the course management option, uses the course object
             default -> {System.out.println("fatal error! program will shutdown");System.exit(1);}// this default should never be reached as the main code block catches all mismatched user inputs and exceptions, therefore if it is somehow reached it will be treated as an error and the program will be closed
         }
@@ -59,32 +61,28 @@ class MainMenu extends Menus<Integer> {
         int mainSelection = -1;
         Scanner mainScan = new Scanner(System.in);
 
-        //why are we looping this twice when its looped in main??
-        try {
-            System.out.println("-------------------------------------------\nMain Menu\n\n1 : Student Management\n2 : Course Management\n0 : Exit");
-            mainSelection = mainScan.nextInt();
-            // mainScan.close();//stop closing these scanner it breaks it
-            if(mainSelection!=1 || mainSelection != 2 || mainSelection != 0){
-                throw new MyException();
-            }
-        }
-        catch (MyException | Exception e) {
-            System.out.println("invalid input!");
-        }
-        finally {
-            if(mainSelection>=0 && mainSelection<= 2){
-                toggle = false;
-            }
-        }
-
+      while (toggle) {
+          try {
+              System.out.println("-------------------------------------------\nMain Menu\n\n1 : Student Management\n2 : Course Management\n0 : Exit");
+              mainSelection = mainScan.nextInt();
+              // mainScan.close();//stop closing these scanner it breaks it
+              if (2<mainSelection || mainSelection<0) {
+                  throw new MyException();
+              }
+          } catch (MyException | Exception e) {
+              System.out.println("invalid input!");
+          } finally {
+              if (mainSelection >= 0 && mainSelection <= 2) {
+                  toggle = false;
+              }
+          }
+      }
         return mainSelection;
-
     }
 
 }
 class StudentManagement extends Menus<Character> {
     //student management initial prompt code
-
 
     //why are we looping through this??
     @Override
@@ -94,22 +92,23 @@ class StudentManagement extends Menus<Character> {
 
         //create the scanner outside the while loop FIX
         Scanner studentScan = new Scanner(System.in);
-    
+
         try {
-            System.out.println("a. add a student\nb. search for a student by id\nc. delete a student\nd. print the fee invoice of a student by id.\ne. Print all students"); // will change
+            System.out.println("Student management Menu:\nChoose one of:\nA - add a student\nB - delete a student\nC - print Fee Invoice\nD - Print List of Students\nX - Back to Main menu"); // will change
             studentSelection = studentScan.next().charAt(0);
+            studentSelection = Character.toLowerCase(studentSelection);
             //studentScan.close(); //stop closing the scanner
 
             switch (studentSelection) {
                 case 'a':
                 case 'b':
                 case 'c':
-                case 'd':   
-                case 'e':
+                case 'd':
+                case 'x':
                     break; // valid input
                 default:
                     throw new MyException(); // invalid input
-            }       
+            }
         }
         catch (MyException | Exception e) {
             System.out.println("invalid input!");
@@ -118,9 +117,9 @@ class StudentManagement extends Menus<Character> {
             //this isn't necessary
             //if(studentSelection == 'a'  studentSelection != 'b' && studentSelection != 'c' && studentSelection != 'd' && studentSelection != 'e') ) { // will change
             //    toggle = false;
-           // }
+            // }
         }
-       return studentSelection;
+        return studentSelection;
 
     }
 
@@ -136,11 +135,11 @@ class StudentManagement extends Menus<Character> {
         switch (sMenuSelection){
             case 'a'->{
 
-                String name,id, type; 
-                double gpa;  
+                String name,id, type;
+                double gpa;
                 int classes;
 
-                
+
 
 
                 //getting the students Info try statement if the ID is not in the format specified
@@ -149,7 +148,7 @@ class StudentManagement extends Menus<Character> {
                 id=addStudent.nextLine();
 
                 //}
-               
+
 
                 System.out.println("What Is The Student's Name:");
                 name=addStudent.nextLine();
@@ -159,7 +158,7 @@ class StudentManagement extends Menus<Character> {
 
                 System.out.println("What Type of Student (PhD, MS or Undergrad):");
                 type=addStudent.nextLine();
-                
+
                 if(type.equals("Undergrad")){
                     System.out.println("ADDING AN : Undergrad Student");
                     System.out.println("How Many CRNS Are They Taking");
@@ -216,22 +215,22 @@ class StudentManagement extends Menus<Character> {
                         gradCrnsTaken[i]=addStudent.nextInt();
                         addStudent.nextLine();//discard '\n'
                     }
-                    
+
 
                     Student newMasterStudent= new MSStudent(name, id, gradCrnsTaken);
                     Main.school.addNewStudent(newMasterStudent);
                 }
 
                 System.out.println(name + " ADDED");
-                
-                }//Add studeent 
+
+            }//Add studeent
             case 'b'->{
                 String id;
                 System.out.println("What Is The Student's ID:");
                 id=addStudent.nextLine();
 
                 Main.school.searchStudent(id);
-                }//Search Student
+            }//Search Student
             case 'c'->{
                 //get input w/ scanner
                 String id;
@@ -239,16 +238,18 @@ class StudentManagement extends Menus<Character> {
                 id=addStudent.nextLine();
 
                 Main.school.deleteStudent(id);
-                }//Delete a student
+            }//Delete a student
             case 'd'->{
-                
+
                 String id;
                 System.out.println("What Is The Student's ID:");
                 id=addStudent.nextLine();
-                
+
                 Main.school.printFeeInvoice(id);
-                }//Print Fee invoice 
-            case 'e'->{Main.school.printListStudents();}//Print all students 
+            }//Print Fee invoice
+            case 'e'->{Main.school.printListStudents();}//Print all students
+
+            default -> {}
         }
     }
 }
@@ -379,7 +380,7 @@ class UndergraduateStudent extends Student{
             System.out.println("\t\tTOTAL PAYMENTS\t\t$ "+ price);
         }
 
-        
+
     }
 }
 
@@ -480,7 +481,7 @@ class studentNode {
     public Student getStudent(){
         return e;
     }
-    
+
     public studentNode getNext(){
         return next;
     }
@@ -524,7 +525,7 @@ class studentLinkedList{
 
     //search the student by id
     public void searchStudent(String id){
-        
+
         studentNode current=school;
         while (current != null){
             if (current.getStudent().getId().equals(id)){
@@ -535,11 +536,11 @@ class studentLinkedList{
         }
         System.out.println("Student Not Found");
         return;
-    } 
+    }
 
     //Deletes the student by id
     public void deleteStudent(String id){
-        
+
         //if there are no students in the school
         if(school==null){
             return;
@@ -565,8 +566,8 @@ class studentLinkedList{
         }
         System.out.println("Student Not Found");
         return;
-    } 
-    
+    }
+
 
     //Prints all students in the linked list
     //implementation for grouping based on class
@@ -601,3 +602,139 @@ class studentLinkedList{
     }
 }
 
+enum LectureType {
+    GRAD, UNDERGRAD;
+}
+
+enum LectureMode {
+    F2F, MIXED, ONLINE;
+}
+//_______________________________________________________________________________
+
+class Lab {
+    private String crn;
+    private String classroom;
+
+    public String getCrn() {
+        return crn;
+    }
+
+    public void setCrn(String crn) {
+        this.crn = crn;
+    }
+
+    public String getClassroom() {
+        return classroom;
+    }
+
+    public void setClassroom(String classroom) {
+        this.classroom = classroom;
+    }
+
+    @Override
+    public String toString() {
+        return crn + "," + classroom;
+    }
+
+    public Lab(String crn, String classroom) {
+        this.crn = crn;
+        this.classroom = classroom;
+    }
+
+}//end of class Lab
+
+class FileInteractions{
+    File lecfile = new File("lec.txt");
+    public void initialize(){
+
+    }
+}
+
+//_______________________________________________________________________________
+class Lecture {
+
+    private String crn;
+    private String prefix;
+    private String lectureName;
+
+    private LectureType lectureType; //Grad or UnderGrad
+    private LectureMode lectureMode; //F2F, Mixed or Online
+    private String classroom;
+    private boolean hasLabs;
+    private int creditHours;
+
+    ArrayList<Lab> labs;
+
+
+    // _________________
+
+    //Helper method-used in constructors to set up the common fields
+    private void LectureCommonInfoSetUp (String crn, String prefix, String lectureName, LectureType lectureType, LectureMode lectureMode) {
+        this.crn = crn;
+        this.prefix = prefix;
+        this.lectureName = lectureName;
+        this.lectureType = lectureType;
+        this.lectureMode = lectureMode;
+    }
+
+    // Non-online with Labs
+    public Lecture(	String crn,
+                       String prefix,
+                       String lectureName,
+                       LectureType lectureType,
+                       LectureMode lectureMode,
+                       String classroom,
+                       boolean hasLabs,
+                       int creditHours,
+                       ArrayList<Lab> labs ) {
+
+        LectureCommonInfoSetUp(crn,prefix,lectureName,lectureType,lectureMode);
+        this.classroom = classroom;
+        this.hasLabs = hasLabs;
+        this.creditHours = creditHours;
+        this.labs = labs;
+    }
+
+
+
+    // Constructor for Non-online without Labs
+    public Lecture( String crn, String prefix, String lectureName, LectureType lectureType, LectureMode lectureMode, String classroom,
+                    boolean hasLabs, int creditHours) {
+
+        LectureCommonInfoSetUp(crn,prefix,lectureName,lectureType,lectureMode);
+        this.classroom = classroom;
+        this.hasLabs = hasLabs;
+        this.creditHours = creditHours;
+
+
+
+
+    }
+
+    // Constructor for Online Lectures
+    public Lecture(String crn, String prefix, String lectureName, LectureType lectureType, LectureMode lectureMode, int creditHours) {
+        LectureCommonInfoSetUp(crn,prefix,lectureName,lectureType,lectureMode);
+        this.classroom = classroom;
+        this.hasLabs = hasLabs;
+        this.creditHours = creditHours;
+
+    }
+//________
+
+    @Override
+    public String toString() {
+        String lectureAndLabs = crn + "," + prefix + "," + lectureName + "," + lectureType + ","
+                + lectureMode + "," + hasLabs + "," + creditHours+"\n";
+
+        if ( labs != null ) {//printing corresponding labs
+            //lectureAndLabs+="\n";
+            for (Lab lab: labs)
+                lectureAndLabs+= lab +"\n";
+        }
+        return lectureAndLabs;
+
+    }
+
+
+
+}
