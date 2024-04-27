@@ -2,7 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.*;
-//AJ Test
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 
@@ -11,94 +11,101 @@ public class Main { //main class where all the classes and methods will be calle
     public static void main(String[] args) {
         //Linked List holds all the students
         //not sure where to initialize this based on menu objects
-
     }
 }
+
 class MyException extends Throwable {
 
 }
-abstract class Menus<T> {//abstract class for all menus to be based off
-    abstract public T menuPromptAndSelect(); // method that prints out the menu prompt and store the user's input selection
 
-    abstract public void menuSelectCheck(); //takes in the user's input preformed by the first class and preforms and action based on the user's input
+abstract class Menus<T> {//abstract class for all menus to be based off
+
+    // Prints out menu prompt and stores user's input selection
+    abstract public T menuPromptAndSelect();
+
+    // Takes user input performed by first class and performs action based on user input
+    abstract public void menuSelectCheck();
 }
 
 class MainMenu extends Menus<Integer> {
-    StudentManagement studentManagementMenu = new StudentManagement(); //studentMenu object for the Mainmenu class to access the student menu overriden method
-    CourseManagement courseManagementMenu = new CourseManagement(); //studentMenu object for the Mainmenu class to access the student menu overriden method
-    boolean whileToggle = true; // another boolean variable to maintain a while loop until a certain breakpoint ??why this is never used??
 
+    // Objects for class to access overridden methods
+    StudentManagement studentManagementMenu = new StudentManagement();
+    CourseManagement courseManagementMenu = new CourseManagement();
 
-
-    //ADDED BREAK STATEMENTS 
+    // Takes user input stored in the Menu Class
     @Override
-    public void menuSelectCheck() { //takes in the user input stored in the menuPrompt class
-        int userSelection  = -1;
-        userSelection = menuPromptAndSelect(); //internal variable is set to the user input(which is stored in the prompt class
-        switch (userSelection){
-            case 0->{ System.out.println("Goodbye!"); //case where user selects the exit option and the program is terminated
+    public void menuSelectCheck() {
+        int userSelection = -1;
+        userSelection = menuPromptAndSelect();
+        switch (userSelection) {
+
+            // User selects "Exit"
+            case 0->{ System.out.println("Take Care!");
                 System.exit(0);break;}
+
+            // User selects "Student Management"
             case 1->{studentManagementMenu.menuSelectCheck();
                 break;
-            }//case where student selects the student management option, uses the student object
-            case 2->{courseManagementMenu.menuSelectCheck();break;}//case where student selects the course management option, uses the course object
-            default -> {System.out.println("fatal error! program will shutdown");System.exit(1);}// this default should never be reached as the main code block catches all mismatched user inputs and exceptions, therefore if it is somehow reached it will be treated as an error and the program will be closed
-        }
+            }
 
+            // User selects "Course Management"
+            case 2->{courseManagementMenu.menuSelectCheck();break;}
+
+            // Error, should never be reached
+            default -> {System.out.println("fatal error! program will shutdown");System.exit(1);}
+        }
     }
+
     @Override
     public Integer menuPromptAndSelect() {
         boolean toggle = true;
         int mainSelection = -1;
         Scanner mainScan = new Scanner(System.in);
 
-      while (toggle) {
-          try {
-              System.out.println("-------------------------------------------\nMain Menu\n\n1 : Student Management\n2 : Course Management\n0 : Exit");
-              mainSelection = mainScan.nextInt();
-              // mainScan.close();//stop closing these scanner it breaks it
-              if (2<mainSelection || mainSelection<0) {
-                  throw new MyException();
-              }
-          } catch (MyException | Exception e) {
-              System.out.println("invalid input!");
-          } finally {
-              if (mainSelection >= 0 && mainSelection <= 2) {
-                  toggle = false;
-              }
-          }
-      }
+        while (toggle) {
+            try {
+                System.out.println("-------------------------------------------\nMain Menu\n\n1 : Student Management\n2 : Course Management\n0 : Exit");
+                mainSelection = mainScan.nextInt();
+
+                if (2<mainSelection || mainSelection<0) {
+                    throw new MyException();
+                }
+            } catch (MyException | Exception e) {
+                System.out.println("invalid input!");
+            } finally {
+                if (mainSelection >= 0 && mainSelection <= 2) {
+                    toggle = false;
+                }
+            }
+        }
         return mainSelection;
     }
-
 }
-class StudentManagement extends Menus<Character> {
-    //student management initial prompt code
 
-    //why are we looping through this??
+class StudentManagement extends Menus<Character> {
+
     @Override
     public Character menuPromptAndSelect() {
         boolean toggle = true;
         char studentSelection = ' ';
 
-        //create the scanner outside the while loop FIX
         Scanner studentScan = new Scanner(System.in);
 
         try {
-            System.out.println("Student management Menu:\nChoose one of:\nA - add a student\nB - delete a student\nC - print Fee Invoice\nD - Print List of Students\nX - Back to Main menu"); // will change
+            System.out.println("Student management Menu:\nChoose one of:\nA - Search add a student\nB - Delete a student\nC - Print Fee Invoice\nD - Print List of Students\nX - Back to Main menu");
             studentSelection = studentScan.next().charAt(0);
             studentSelection = Character.toLowerCase(studentSelection);
-            //studentScan.close(); //stop closing the scanner
 
             switch (studentSelection) {
-                case 'a':
-                case 'b':
-                case 'c':
-                case 'd':
-                case 'x':
-                    break; // valid input
+                case 'A':
+                case 'B':
+                case 'C':
+                case 'D':
+                case 'X':
+                    break; // Valid input
                 default:
-                    throw new MyException(); // invalid input
+                    throw new MyException(); // Invalid input
             }
         }
         catch (MyException | Exception e) {
@@ -108,40 +115,35 @@ class StudentManagement extends Menus<Character> {
             //this isn't necessary
             //if(studentSelection == 'a'  studentSelection != 'b' && studentSelection != 'c' && studentSelection != 'd' && studentSelection != 'e') ) { // will change
             //    toggle = false;
-            // }
+            // ...
         }
         return studentSelection;
-
     }
 
+    // Need to fix formatting for this class
+    // ...
     @Override
     public void menuSelectCheck() {
-
 
         char sMenuSelection;
         sMenuSelection = menuPromptAndSelect();
         Scanner addStudent= new Scanner(System.in);
 
-
         switch (sMenuSelection){
-            case 'a'->{
+            case 'A'->{
 
                 String name,id, type;
                 double gpa;
                 int classes;
 
-
-
-
                 //getting the students Info try statement if the ID is not in the format specified
                 //try{
-                System.out.println("What Is The Student's ID:");
+                System.out.println("Enter student ID:");
                 id=addStudent.nextLine();
 
                 //}
-
-
-                System.out.println("What Is The Student's Name:");
+                
+                System.out.println("Enter the student's name:");
                 name=addStudent.nextLine();
                 System.out.println("What Is The Students GPA");
                 gpa=addStudent.nextDouble();
@@ -163,12 +165,12 @@ class StudentManagement extends Menus<Character> {
                     }
                     System.out.println("Are They A Resident");
                     //not sure what this is?
-
-
+                    
                     //creating student
                     Student newStudent= new UndergraduateStudent(name,id,undergradCrnsTaken,gpa,false);
                     Main.school.addNewStudent(newStudent);
                 }
+                
                 //different inputs for different types of students 
                 if (type.equals("PhD")){
                     System.out.println("ADDING AN : PHD Student");
@@ -257,14 +259,6 @@ class CourseManagement extends Menus<Integer> {
     }
 }
 
-// delete these comments later
-// All students: name and ID
-// Undergrad: undergrad courses taken, gpa, resident or not
-
-// MS: grad courses taken[],
-// PHD: labs supervised (discount), advisor, research subject
-// separate research fee of 700 for PHD students
-
 abstract class Student {
 
     // Data
@@ -303,13 +297,11 @@ abstract class Student {
 }
 
 class UndergraduateStudent extends Student{
-
-    // Data
+    
     private int[] undergradCrnsTaken;
     private double gpa;
     private boolean resident;
-
-    // Setters and getters
+    
     public int[] getUndergradCrnsTaken() {
         return undergradCrnsTaken;
     }
@@ -334,7 +326,6 @@ class UndergraduateStudent extends Student{
         this.resident = resident;
     }
 
-    // Constructor
     public UndergraduateStudent(String name, String id, int[] undergradCrnsTaken, double gpa, boolean resident) {
         super (name, id);
         this.undergradCrnsTaken = undergradCrnsTaken.clone();
@@ -342,36 +333,30 @@ class UndergraduateStudent extends Student{
         this.resident= resident;
     }
 
-    // Function to get cost for credit hours depending on if OOS resident or not
-    // ...
-
     @Override
     public void printInvoice() {
         double price= 0;
-        double baseprice=120.25;
+        double basePrice=120.25;
         double health= 35.00;
 
 
         System.out.println("\nVALENCE COLLEGE\nORLANDO FL 10101");
         System.out.println("-----------------------------");
         System.out.println(getId()+"-" + getName());
-        System.out.println("\n1 Credit Hour = $"+baseprice);
+        System.out.println("\n1 Credit Hour = $"+basePrice);
         System.out.println("CRN\tCR_PREFIX\tCR_HOURS");
 
         //loop through the classes they are taking
-        for (int i=0;i<this.undergradCrnsTaken.length;i++){
+        for (int i=0;i<this.undergradCrnsTaken.length;i++) {
             System.out.printf("\n%d\t%s\t\t%d",undergradCrnsTaken[i],undergradCrnsTaken[i],undergradCrnsTaken[i]);
         }
-        //
         System.out.println("\n\t\tHealth & id Fees  $ "+health);
         System.out.println("\n---------------------------------");
-        if(gpa>=3.5){
-
-        }else{
+        if(gpa>=3.5) {
+            //...
+        } else {
             System.out.println("\t\tTOTAL PAYMENTS\t\t$ "+ price);
         }
-
-
     }
 }
 
@@ -383,13 +368,11 @@ abstract class GraduateStudent extends Student {
 }
 
 class PHDStudent extends GraduateStudent {
-
-    // Data
+    
     private int[] labsSupervised;
     private String advisor;
     private String researchSubject;
 
-    // Setters and Getters
     public int[] getlabsSupervised() {
         return labsSupervised;
     }
@@ -413,8 +396,7 @@ class PHDStudent extends GraduateStudent {
     public void setResearchSubject(String researchSubject) {
         this.researchSubject = researchSubject;
     }
-
-    // Constructor
+    
     public PHDStudent(String name, String id, int[] labsSupervised, String advisor, String researchSubject) {
         super(name, id);
         this.labsSupervised = labsSupervised.clone();
@@ -432,10 +414,8 @@ class PHDStudent extends GraduateStudent {
 }
 class  MSStudent extends GraduateStudent {
 
-    // Data
     private int[] gradCrnsTaken;
 
-    // Setter and getter
     public int[] getGradCrnsTaken() {
         return gradCrnsTaken;
     }
@@ -444,21 +424,17 @@ class  MSStudent extends GraduateStudent {
         this.gradCrnsTaken = gradCrnsTaken;
     }
 
-    // Constructor
     public MSStudent(String name, String id, int[] gradCrnsTaken) {
         super(name, id);
         this.gradCrnsTaken = gradCrnsTaken.clone();
 
     }
+    
     public void printInvoice(){
         // ...
     }
 }
 
-
-
-//Node class that houses individual student 
-//Points to next student
 class studentNode {
 
     private Student e;
@@ -480,11 +456,8 @@ class studentNode {
     public void setNext(studentNode next) {
         this.next = next;
     }
-
 }
 
-
-//Linked List Class 
 class studentLinkedList{
     studentNode school;
 
@@ -496,15 +469,14 @@ class studentLinkedList{
     public void addNewStudent(Student e){
         studentNode newNode=new studentNode(e);
 
-        //checks if the school is null if the newNode is the first student
+        // Checks if the school is null if the newNode is the first student
         if(school==null){
             school=newNode;
             return;
         }
-        //Always keep the pointer to the beginning of the LinkedList
+        
         studentNode current=school;
-        //Iterates through the linked list and finds the next empty position
-        //Then sets the newStudent as that next empty position
+        
         while(current!=null){
             if(current.getNext()==null){
                 current.setNext(newNode);
@@ -514,7 +486,7 @@ class studentLinkedList{
         }
     }
 
-    //search the student by id
+    // Search the student by ID
     public void searchStudent(String id){
 
         studentNode current=school;
@@ -529,15 +501,15 @@ class studentLinkedList{
         return;
     }
 
-    //Deletes the student by id
+    // Deletes the student by id
     public void deleteStudent(String id){
 
-        //if there are no students in the school
+        // If there are no students in the school, return
         if(school==null){
             return;
         }
 
-        //if the first student is being deleted
+        // If the first student is being deleted, return
         if(school.getStudent().getId().equals(id)){
             school=school.getNext();
             return;
@@ -558,10 +530,9 @@ class studentLinkedList{
         System.out.println("Student Not Found");
         return;
     }
-
-
-    //Prints all students in the linked list
-    //implementation for grouping based on class
+    
+    // Prints all students in the linked list
+    // Implementation for grouping based on class
     public void printListStudents(){
         if (school== null){
             return;
@@ -575,7 +546,7 @@ class studentLinkedList{
         return;
     }
 
-    //print fee invoice based on Id
+    // Print fee invoice based on Id
     public void printFeeInvoice(String id){
         if (school == null){
             return;
@@ -631,8 +602,7 @@ class Lab {
         this.crn = crn;
         this.classroom = classroom;
     }
-
-}//end of class Lab
+}
 
 class FileInteractions{
     File lecfile = new File("lec.txt");
@@ -641,9 +611,9 @@ class FileInteractions{
     }
 }
 
-//_______________________________________________________________________________
 class Lecture {
 
+    // Make setters and getters 
     private String crn;
     private String prefix;
     private String lectureName;
@@ -655,8 +625,7 @@ class Lecture {
     private int creditHours;
 
     ArrayList<Lab> labs;
-
-
+    
     // _________________
 
     //Helper method-used in constructors to set up the common fields
@@ -685,9 +654,7 @@ class Lecture {
         this.creditHours = creditHours;
         this.labs = labs;
     }
-
-
-
+    
     // Constructor for Non-online without Labs
     public Lecture( String crn, String prefix, String lectureName, LectureType lectureType, LectureMode lectureMode, String classroom,
                     boolean hasLabs, int creditHours) {
@@ -696,10 +663,6 @@ class Lecture {
         this.classroom = classroom;
         this.hasLabs = hasLabs;
         this.creditHours = creditHours;
-
-
-
-
     }
 
     // Constructor for Online Lectures
@@ -708,24 +671,20 @@ class Lecture {
         this.classroom = classroom;
         this.hasLabs = hasLabs;
         this.creditHours = creditHours;
-
     }
-//________
 
     @Override
     public String toString() {
         String lectureAndLabs = crn + "," + prefix + "," + lectureName + "," + lectureType + ","
                 + lectureMode + "," + hasLabs + "," + creditHours+"\n";
 
-        if ( labs != null ) {//printing corresponding labs
+        // Printing corresponding labs
+        if (labs != null) {
+
             //lectureAndLabs+="\n";
-            for (Lab lab: labs)
-                lectureAndLabs+= lab +"\n";
+            for (Lab lab : labs)
+                lectureAndLabs += lab + "\n";
         }
         return lectureAndLabs;
-
     }
-
-
-
 }
