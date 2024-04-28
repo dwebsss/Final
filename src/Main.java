@@ -460,137 +460,138 @@ class  MSStudent extends GraduateStudent {
         System.out.println("\n---------------------------------");
         System.out.println("\t\tTOTAL PAYMENTS\t\t$ " + price);
     }
-
-    class studentNode {
-
-        private Student e;
-        private studentNode next;
-
-        public studentNode(Student e) {
-            this.e = e;
-            this.next = null;
-        }
-
-        public Student getStudent() {
-            return e;
-        }
-
-        public studentNode getNext() {
-            return next;
-        }
-
-        public void setNext(studentNode next) {
-            this.next = next;
-        }
-    }
-
-    class studentLinkedList {
-        studentNode school;
-
-        public studentLinkedList() {
-            school = null;
-        }
-
-        //Adds a new student to the linked list
-        public void addNewStudent(Student e) {
-            studentNode newNode = new studentNode(e);
-
-            // Checks if the school is null if the newNode is the first student
-            if (school == null) {
-                school = newNode;
-                return;
-            }
-
-            studentNode current = school;
-
-            while (current != null) {
-                if (current.getNext() == null) {
-                    current.setNext(newNode);
-                    return;
-                }
-                current = current.getNext();
-            }
-        }
-
-        // Search the student by ID
-        public void searchStudent(String id) {
-
-            studentNode current = school;
-            while (current != null) {
-                if (current.getStudent().getId().equals(id)) {
-                    System.out.println(current.getStudent());
-                    return;
-                }
-                current = current.getNext();
-            }
-            System.out.println("Student Not Found");
-            return;
-        }
-
-        // Deletes the student by id
-        public void deleteStudent(String id) {
-
-            // If there are no students in the school, return
-            if (school == null) {
-                return;
-            }
-
-            // If the first student is being deleted, return
-            if (school.getStudent().getId().equals(id)) {
-                school = school.getNext();
-                return;
-            }
-
-            studentNode prev = school;
-            studentNode current = school.getNext();
-
-            while (current != null) {
-                if (current.getStudent().getId().equals(id)) {
-                    prev.setNext(current.getNext());
-                    System.out.println(current.getStudent().getName() + " Has Been Successfully Deleted");
-                    return;
-                }
-                prev = current;
-                current = current.getNext();
-            }
-            System.out.println("Student Not Found");
-            return;
-        }
-
-        // Prints all students in the linked list
-        // Implementation for grouping based on class
-        public void printListStudents() {
-            if (school == null) {
-                return;
-            }
-
-            studentNode current = school;
-            while (current != null) {
-                System.out.println("- " + current.getStudent().getName());
-                current = current.getNext();
-            }
-            return;
-        }
-
-        // Print fee invoice based on Id
-        public void printFeeInvoice(String id) {
-            if (school == null) {
-                return;
-            }
-
-            studentNode current = school;
-            while (current != null) {
-                if (current.getStudent().getId().equals(id)) {
-                    current.getStudent().printInvoice();
-                    return;
-                }
-                current = current.getNext();
-            }
-            return;
-        }
-    }
-
 }
+
+class studentNode {
+
+    private Student e;
+    private studentNode next;
+
+    public studentNode(Student e) {
+        this.e = e;
+        this.next = null;
+    }
+
+    public Student getStudent() {
+        return e;
+    }
+
+    public studentNode getNext() {
+        return next;
+    }
+
+    public void setNext(studentNode next) {
+        this.next = next;
+    }
+}
+
+class studentLinkedList {
+    studentNode school;
+
+    public studentLinkedList() {
+        school = null;
+    }
+
+    //Adds a new student to the linked list
+    public void addNewStudent(Student e) {
+        studentNode newNode = new studentNode(e);
+
+        // Checks if the school is null if the newNode is the first student
+        if (school == null) {
+            school = newNode;
+            return;
+        }
+
+        studentNode current = school;
+
+        while (current != null) {
+            if (current.getNext() == null) {
+                current.setNext(newNode);
+                return;
+            }
+            current = current.getNext();
+        }
+    }
+
+    // Search the student by ID
+    public void searchStudent(String id) {
+
+        studentNode current = school;
+        while (current != null) {
+            if (current.getStudent().getId().equals(id)) {
+                System.out.println(current.getStudent());
+                return;
+            }
+            current = current.getNext();
+        }
+        System.out.println("Student Not Found");
+        return;
+    }
+
+    // Deletes the student by id
+    public void deleteStudent(String id) {
+
+        // If there are no students in the school, return
+        if (school == null) {
+            return;
+        }
+
+        // If the first student is being deleted, return
+        if (school.getStudent().getId().equals(id)) {
+            school = school.getNext();
+            return;
+        }
+
+        studentNode prev = school;
+        studentNode current = school.getNext();
+
+        while (current != null) {
+            if (current.getStudent().getId().equals(id)) {
+                prev.setNext(current.getNext());
+                System.out.println(current.getStudent().getName() + " Has Been Successfully Deleted");
+                return;
+            }
+            prev = current;
+            current = current.getNext();
+        }
+        System.out.println("Student Not Found");
+        return;
+    }
+
+    // Prints all students in the linked list
+    // Implementation for grouping based on class
+    public void printListStudents() {
+        if (school == null) {
+            return;
+        }
+
+        studentNode current = school;
+        while (current != null) {
+            System.out.println("- " + current.getStudent().getName());
+            current = current.getNext();
+        }
+        return;
+    }
+
+    // Print fee invoice based on Id
+    public void printFeeInvoice(String id) {
+        if (school == null) {
+            return;
+        }
+
+        studentNode current = school;
+        while (current != null) {
+            if (current.getStudent().getId().equals(id)) {
+                current.getStudent().printInvoice();
+                return;
+            }
+            current = current.getNext();
+        }
+        return;
+    }
+}
+
+
 
 enum LectureType {
     GRAD, UNDERGRAD;
