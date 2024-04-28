@@ -154,14 +154,19 @@ class StudentManagement extends Menus<Character> {
                 double gpa;
                 int classes;
 
-                //getting the students Info try statement if the ID is not in the format specified
-                //try {
+
+            try {
+            
                 System.out.println("Enter student ID:");
-                id=addStudent.nextLine();
+                id = addStudent.nextLine();
 
                 if (!MyException.validateID(id)) {
-                    System.out.println("Invalid ID format. Please enter in the format LetterLetterDigitDigitDigitDigit (e.g., er7894).");
-                return; // Return to menu without proceeding
+                    throw new MyException();
+                }
+
+            } catch (MyException e) {
+                System.out.println("Invalid ID format. Please enter in the correct format.");
+                return;
             }
                 System.out.println("Enter the student's name:");
                 name=addStudent.nextLine();
@@ -235,7 +240,7 @@ class StudentManagement extends Menus<Character> {
                 }
 
                 System.out.println(name + " ADDED");
-
+                break;
             }//Add studeent
             case 'b'->{
                 String id;
@@ -243,6 +248,7 @@ class StudentManagement extends Menus<Character> {
                 id=addStudent.nextLine();
 
                 Main.school.searchStudent(id);
+                break;
             }//Search Student
             case 'c'->{
                 //get input w/ scanner
@@ -251,6 +257,7 @@ class StudentManagement extends Menus<Character> {
                 id=addStudent.nextLine();
 
                 Main.school.deleteStudent(id);
+                break;
             }//Delete a student
             case 'd'->{
 
@@ -259,8 +266,9 @@ class StudentManagement extends Menus<Character> {
                 id=addStudent.nextLine();
 
                 Main.school.printFeeInvoice(id);
+                break;
             }//Print Fee invoice
-            case 'e'->{Main.school.printListStudents();}//Print all students
+            case 'e'->{Main.school.printListStudents();break;}//Print all students
 
             default -> {}
         }
