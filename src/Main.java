@@ -12,6 +12,10 @@ public class Main { //main class where all the classes and methods will be calle
     public static void main(String[] args) {
         //Linked List holds all the students
         //not sure where to initialize this based on menu objects
+        Menus menu = new MainMenu();
+        while (true){
+            menu.menuSelectCheck();
+        }
     }
 }
 
@@ -97,7 +101,7 @@ class StudentManagement extends Menus<Character> {
         try {
             System.out.println("Student management Menu:\nChoose one of:\nA - Search add a student\nB - Delete a student\nC - Print Fee Invoice\nD - Print List of Students\nX - Back to Main menu");
             studentSelection = studentScan.next().charAt(0);
-            studentSelection = Character.toLowerCase(studentSelection);
+            studentSelection = Character.toUpperCase(studentSelection);
 
             switch (studentSelection) {
                 case 'A':
