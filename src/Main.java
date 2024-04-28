@@ -333,30 +333,30 @@ class UndergraduateStudent extends Student{
 
     @Override
     public void printInvoice() {
-        double price= 0;
-        double basePrice=120.25;
-        double health= 35.00;
+        double price = 0;
+        double basePrice = 120.25;
+        double health = 35.00;
 
-        // Don't see if there is a check to see if Undergrad student is an OOS resident or not, 
-        // will add
-        // ...
-        
+        if (isResident())
+            basePrice *= 2;
+
         System.out.println("\nVALENCE COLLEGE\nORLANDO FL 10101");
         System.out.println("-----------------------------");
-        System.out.println(getId()+"-" + getName());
-        System.out.println("\n1 Credit Hour = $"+basePrice);
+        System.out.println(getId() + "-" + getName());
+        System.out.println("\n1 Credit Hour = $" + basePrice);
         System.out.println("CRN\tCR_PREFIX\tCR_HOURS");
 
-        // Loop through classes 
-        for (int i=0;i<this.undergradCrnsTaken.length;i++) {
-            System.out.printf("\n%d\t%s\t\t%d",undergradCrnsTaken[i],undergradCrnsTaken[i],undergradCrnsTaken[i]);
+        // Loop through classes
+        for (int i = 0; i < this.undergradCrnsTaken.length; i++) {
+            System.out.printf("\n%d\t%s\t\t%d", undergradCrnsTaken[i], undergradCrnsTaken[i], undergradCrnsTaken[i]);
         }
-        System.out.println("\n\t\tHealth & id Fees  $ "+health);
+        System.out.println("\n\t\tHealth & id Fees  $ " + health);
         System.out.println("\n---------------------------------");
-        if(gpa>=3.5) {
-            //...
+        double discount = 0;
+        if (getGpa() >= 3.5 && price > 500) { // For some reason, it says that this is always false?
+            discount = price * 0.25;
         } else {
-            System.out.println("\t\tTOTAL PAYMENTS\t\t$ "+ price);
+            System.out.println("\t\tTOTAL PAYMENTS\t\t$ " + (price - discount));
         }
     }
 }
