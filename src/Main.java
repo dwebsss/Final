@@ -138,7 +138,7 @@ class StudentManagement extends Menus<Character> {
                 int classes;
 
                 //getting the students Info try statement if the ID is not in the format specified
-                //try{
+                //try {
                 System.out.println("Enter student ID:");
                 id=addStudent.nextLine();
 
@@ -355,8 +355,9 @@ class UndergraduateStudent extends Student{
         double discount = 0;
         if (getGpa() >= 3.5 && price > 500) { // For some reason, it says that this is always false?
             discount = price * 0.25;
+            // print total minus discounted prices 
         } else {
-            System.out.println("\t\tTOTAL PAYMENTS\t\t$ " + (price - discount));
+            System.out.println("\t\tTOTAL PAYMENTS\t\t$ " + price);
         }
     }
 }
@@ -431,9 +432,23 @@ class  MSStudent extends GraduateStudent {
 
     }
     
-    public void printInvoice(){
-        // ...
-    }
+    public void printInvoice() {
+        double price = 0;
+        double basePrice = 300.00;
+        double health = 35.00
+
+        System.out.println("\nVALENCE COLLEGE\nORLANDO FL 10101");
+        System.out.println("-----------------------------");
+        System.out.println(getId() + "-" + getName());
+        System.out.println("\n1 Credit Hour = $" + basePrice);
+        System.out.println("CRN\tCR_PREFIX\tCR_HOURS");
+
+        for (int i = 0; i < this.gradCrnsTaken.length; i++) {
+            System.out.printf(); //...
+        }
+        System.out.println("\n\t\tHealth & id Fees  $ " + health);
+        System.out.println("\n---------------------------------");
+        System.out.println("\t\tTOTAL PAYMENTS\t\t$ " + price);
 }
 
 class studentNode {
@@ -522,7 +537,7 @@ class studentLinkedList{
         while(current!=null){
             if (current.getStudent().getId().equals(id)){
                 prev.setNext(current.getNext());
-                System.out.println(current.getStudent().getName()+" Has Been Successfully Deleted");
+                System.out.println(current.getStudent().getName() +" Has Been Successfully Deleted");
                 return;
             }
             prev=current;
@@ -541,7 +556,7 @@ class studentLinkedList{
 
         studentNode current=school;
         while(current!= null){
-            System.out.println("- "+current.getStudent().getName());
+            System.out.println("- " + current.getStudent().getName());
             current=current.getNext();
         }
         return;
