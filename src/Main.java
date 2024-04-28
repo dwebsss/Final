@@ -448,7 +448,7 @@ class PHDStudent extends GraduateStudent {
     public void printInvoice() {
         double total = 0;
         double health =  35.00;
-        System.out.println("\nVALENCE COLLEGE\nORLANDO FL 10101");
+        System.out.println("\n"VALENCE COLLEGE\nORLANDO FL 10101");
         System.out.println("-----------------------------");
         System.out.println(getId() + "-" + getName());
         System.out.println("\n1 Credit Hour = \t$" + basePrice);
