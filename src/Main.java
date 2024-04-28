@@ -619,13 +619,6 @@ class Lab {
     }
 }
 
-class FileInteractions{
-    File lecfile = new File("lec.txt");
-    public void initialize(){
-
-    }
-}
-
 class Lecture {
 
     // Make setters and getters 
@@ -760,4 +753,5 @@ class FileInteractions{
             System.out.println("file not found!");
         }
     }
+}
 }
