@@ -446,17 +446,19 @@ class PHDStudent extends GraduateStudent {
 
     @Override
     public void printInvoice() {
-
+        double total = 0;
         double health =  35.00;
         System.out.println("\nVALENCE COLLEGE\nORLANDO FL 10101");
         System.out.println("-----------------------------");
         System.out.println(getId() + "-" + getName());
-        System.out.println("\n1 Credit Hour = $" + basePrice);
+        System.out.println("\n1 Credit Hour = \t$" + basePrice);
         
         System.out.println("RESEARCH");
         //if they surpervise 3 labs or more 
 
         System.out.println("\n\t\tHealth & id Fees  $ " + health);
+        System.out.println("\n---------------------------------");
+        System.out.println("\t\tTotal Payments\t$ "+ total);
         
     }
 }
