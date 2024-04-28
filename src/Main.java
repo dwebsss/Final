@@ -3,7 +3,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.*;
 import java.util.regex.Matcher;
-import java.regex.Pattern;
+import java.util.regex.Pattern;
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 
@@ -264,7 +264,7 @@ class CourseManagement extends Menus<Character> {
         cMenuSelection = Character.toLowerCase(menuPromptAndSelect());
         switch (cMenuSelection){
             case 'a' -> {
-                for()
+               // for()
             }
         }
     }
@@ -823,7 +823,7 @@ class FileInteractions {
     }
 }
 
-public class IDValidator {
+class IDValidator {
     private static final String ID_PATTERN = "[a-zA-Z]{2}\\d{4}";
 
 
