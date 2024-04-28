@@ -703,3 +703,61 @@ class Lecture {
         return lectureAndLabs;
     }
 }
+
+class FileInteractions{
+    private ArrayList<Lecture> classList = new ArrayList<>();
+    File lecfile = new File("lec.txt");
+    public void initialize(){
+        try{
+            boolean shouldReadLine = true;
+            Scanner fileRead = new Scanner(lecfile);
+            String line;
+            String[] readLine = {};
+            while(fileRead.hasNextLine()){
+                //if the lab section has read the line, we do not want to read it again
+                if(shouldReadLine) {
+                    line = fileRead.nextLine();
+                    readLine = line.split(",");
+                }
+                else{
+                    shouldReadLine = true; //next iteration read line
+                }
+                if (readLine.length == 8){
+                    String crn = readLine[0];
+                    String prefix = readLine[1];
+                    String title = readLine[2];
+                    LectureType lecType = LectureType.valueOf(readLine[3]);
+                    LectureMode lecMode = LectureMode.valueOf(readLine[4]);
+                    String classroom = readLine[5];
+                    String hasLabPre = readLine[6];
+                    boolean hasLab = false;
+                    switch (hasLabPre.toLowerCase()){
+                        case "yes" -> {hasLab = true;}
+                        case  "no" -> {hasLab = false;}
+                    }
+                    int creditHours = Integer.parseInt(readLine[7]);
+                    boolean fileToggle = true;
+                    ArrayList<Lab> labList = new ArrayList<>();
+                    if(hasLab){
+                        shouldReadLine = false;
+                        String nextLine = fileRead.nextLine();
+                        readLine = nextLine.split(",");
+                        while (readLine.length == 2) {
+                                String crnLab = readLine[0];
+                                String clasroomLab = readLine[1];
+                                Lab newLab = new Lab(crnLab, clasroomLab);
+                                labList.add(newLab);
+                                nextLine = fileRead.nextLine();
+                                readLine = nextLine.split(",");
+                        }
+                    }
+                    Lecture newCourse = new Lecture(crn,prefix,title,lecType,lecMode,classroom,hasLab,creditHours,labList);
+                    classList.add(newCourse);
+                }
+            }
+        }
+        catch (FileNotFoundException e){
+            System.out.println("file not found!");
+        }
+    }
+}
