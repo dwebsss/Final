@@ -26,6 +26,13 @@ public class Main { //main class where all the classes and methods will be calle
 
 class MyException extends Throwable {
 
+    public static boolean validateID(String id) {
+        // Your ID validation logic here
+        // For example, using a regular expression:
+        String ID_PATTERN = "[a-zA-Z]{2}\\d{4}";
+        return id.matches(ID_PATTERN);
+    }
+
 }
 
 // Abstract class for all menus to be based off
@@ -152,7 +159,7 @@ class StudentManagement extends Menus<Character> {
                 System.out.println("Enter student ID:");
                 id=addStudent.nextLine();
 
-                if (!IDValidator.validateID(id)) {
+                if (!MyException.validateID(id)) {
                     System.out.println("Invalid ID format. Please enter in the format LetterLetterDigitDigitDigitDigit (e.g., er7894).");
                 return; // Return to menu without proceeding
             }
@@ -832,13 +839,3 @@ class FileInteractions {
     }
 }
 
-class IDValidator {
-    private static final String ID_PATTERN = "[a-zA-Z]{2}\\d{4}";
-
-
-    public static boolean validateID (String id){
-        Pattern pattern = Pattern.compile(ID_PATTERN);
-        Matcher matcher = pattern.matcher(id);
-        return matcher.matches();
-    }
-}
