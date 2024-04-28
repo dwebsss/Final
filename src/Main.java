@@ -283,7 +283,7 @@ class StudentManagement extends Menus<Character> {
                 System.out.println(name + " ADDED");
                 break;
             }//Add studeent
-            case 'b'->{
+            case 'B'->{
                 String id;
                 System.out.println("What Is The Student's ID:");
                 id=addStudent.nextLine();
@@ -291,7 +291,7 @@ class StudentManagement extends Menus<Character> {
                 Main.school.searchStudent(id);
                 break;
             }//Search Student
-            case 'c'->{
+            case 'C'->{
                 //get input w/ scanner
                 String id;
                 
@@ -317,7 +317,7 @@ class StudentManagement extends Menus<Character> {
                 Main.school.deleteStudent(id);
                 break;
             }//Delete a student
-            case 'd'->{
+            case 'D'->{
 
                 String id;
                 
@@ -343,7 +343,7 @@ class StudentManagement extends Menus<Character> {
                 Main.school.printFeeInvoice(id);
                 break;
             }//Print Fee invoice
-            case 'e'->{Main.school.printListStudents();break;}//Print all students
+            case 'E'->{Main.school.printListStudents();break;}//Print all students
 
             default -> {}
         }
