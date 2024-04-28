@@ -18,9 +18,9 @@ public class Main { //main class where all the classes and methods will be calle
         //Linked List holds all the students
         //not sure where to initialize this based on menu objects
         Menus menu = new MainMenu();
-        while (true){
-            menu.menuSelectCheck();
-        }
+
+        menu.menuSelectCheck();
+        
     }
 }
 
@@ -91,6 +91,8 @@ class MainMenu extends Menus<Integer> {
                 }
             } catch (MyException | Exception e) {
                 System.out.println("invalid input!");
+                mainScan.nextLine();
+                
             } finally {
                 if (mainSelection >= 0 && mainSelection <= 2) {
                     toggle = false;
@@ -160,7 +162,7 @@ class StudentManagement extends Menus<Character> {
                 System.out.println("Enter student ID:");
                 id = addStudent.nextLine();
 
-                if (Main.school.searchStudent(id) != null) {
+                if (Main.school.searchStudent(id)) {
                     System.out.println("Student with ID " + id + " already exists.");
                     return;
                 }
@@ -192,8 +194,16 @@ class StudentManagement extends Menus<Character> {
                     return;
                 }
 
+
+
                 System.out.println("What Type of Student (PhD, MS or Undergrad):");
                 type=addStudent.nextLine();
+
+                if (!type.equals("PhD") || !type.equals("MS")|| !type.equals("Undergrad")){
+                    System.out.println("Please Type Exactly:  PhD || MS || Undergrade");
+                    return; 
+                }
+
 
                 if(type.equals("Undergrad")){
                     System.out.println("ADDING AN : Undergrad Student");
@@ -251,6 +261,7 @@ class StudentManagement extends Menus<Character> {
 
                     }catch(InputMismatchException e){
                         System.out.println("Invalid input. It Has To Be A Number");
+                        return;
                     }
                     
                     int gradCrnsTaken[]=new int[classes];
@@ -289,7 +300,7 @@ class StudentManagement extends Menus<Character> {
                 System.out.println("Enter student ID:");
                 id = addStudent.nextLine();
 
-                if (Main.school.searchStudent(id) != null) {
+                if (Main.school.searchStudent(id)) {
                     System.out.println("Student with ID " + id + " already exists.");
                     return;
                 }
@@ -315,7 +326,7 @@ class StudentManagement extends Menus<Character> {
                 System.out.println("Enter student ID:");
                 id = addStudent.nextLine();
 
-                if (Main.school.searchStudent(id) != null) {
+                if (Main.school.searchStudent(id)) {
                     System.out.println("Student with ID " + id + " already exists.");
                     return;
                 }
@@ -512,6 +523,7 @@ class PHDStudent extends GraduateStudent {
     @Override
     public void printInvoice() {
         double total = 0;
+        double basePrice= 120.00;
         double health =  35.00;
         System.out.println("\nVALENCE COLLEGE\nORLANDO FL 10101");
         System.out.println("-----------------------------");
@@ -617,18 +629,18 @@ class studentLinkedList {
     }
 
     // Search the student by ID
-    public void searchStudent(String id) {
+    public boolean searchStudent(String id) {
 
         studentNode current = school;
         while (current != null) {
             if (current.getStudent().getId().equals(id)) {
                 System.out.println(current.getStudent());
-                return;
+                return true;
             }
             current = current.getNext();
         }
         System.out.println("Student Not Found");
-        return;
+        return false;
     }
 
     // Deletes the student by id
