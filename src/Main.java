@@ -160,6 +160,11 @@ class StudentManagement extends Menus<Character> {
                 System.out.println("Enter student ID:");
                 id = addStudent.nextLine();
 
+                if (Main.school.searchStudent(id) != null) {
+                    System.out.println("Student with ID " + id + " already exists.");
+                    return;
+                }
+
                 if (!MyException.validateID(id)) {
                     throw new MyException();
                 }
@@ -170,9 +175,22 @@ class StudentManagement extends Menus<Character> {
             }
                 System.out.println("Enter the student's name:");
                 name=addStudent.nextLine();
-                System.out.println("What Is The Students GPA");
-                gpa=addStudent.nextDouble();
-                addStudent.nextLine();//discard '\n'
+
+                try{
+                     System.out.println("What Is The Students GPA");
+                    gpa=addStudent.nextDouble();
+                    addStudent.nextLine();//discard '\n'
+
+                    if  (gpa < 0 || gpa > 4.0){
+                        throw new IllegalArgumentException("GPA must be between 0 and 4.0");
+                    }
+                }catch (InputMismatchException e){
+                    System.out.println("Invalid input format. Please enter a valid GPA.");
+                    return;
+                }catch(IllegalArgumentException e){
+                    System.out.println(e.getMessage());
+                    return;
+                }
 
                 System.out.println("What Type of Student (PhD, MS or Undergrad):");
                 type=addStudent.nextLine();
@@ -188,6 +206,7 @@ class StudentManagement extends Menus<Character> {
                         undergradCrnsTaken[i]=addStudent.nextInt();
                         addStudent.nextLine();//discard '\n'
                     }
+
                     System.out.println("Are They A Resident");
                     //not sure what this is?
 
@@ -225,13 +244,24 @@ class StudentManagement extends Menus<Character> {
 
                     System.out.println("How Many CRNS Are They Taking");
 
-                    classes=addStudent.nextInt();
-                    addStudent.nextLine();//discard '\n'
+                    try{
+
+                        classes=addStudent.nextInt();
+                        addStudent.nextLine();//discard '\n'
+
+                    }catch(InputMismatchException e){
+                        System.out.println("Invalid input. It Has To Be A Number");
+                    }
+                    
                     int gradCrnsTaken[]=new int[classes];
                     for (int i=0; i<classes;i++){
                         System.out.println("What Class Number "+(i+1)+" Code");
-                        gradCrnsTaken[i]=addStudent.nextInt();
-                        addStudent.nextLine();//discard '\n'
+                        try{
+                            gradCrnsTaken[i]=addStudent.nextInt();
+                            addStudent.nextLine();//discard '\n'
+                        } catch(InputMismatchException e){
+                            System.out.println("Invalid input. It Has To Be A Number");
+                        }
                     }
 
 
@@ -253,8 +283,25 @@ class StudentManagement extends Menus<Character> {
             case 'c'->{
                 //get input w/ scanner
                 String id;
-                System.out.println("What Is The Student's ID:");
-                id=addStudent.nextLine();
+                
+            try {
+            
+                System.out.println("Enter student ID:");
+                id = addStudent.nextLine();
+
+                if (Main.school.searchStudent(id) != null) {
+                    System.out.println("Student with ID " + id + " already exists.");
+                    return;
+                }
+
+                if (!MyException.validateID(id)) {
+                    throw new MyException();
+                }
+
+            } catch (MyException e) {
+                System.out.println("Invalid ID format. Please enter in the correct format.");
+                return;
+            }
 
                 Main.school.deleteStudent(id);
                 break;
@@ -262,8 +309,25 @@ class StudentManagement extends Menus<Character> {
             case 'd'->{
 
                 String id;
-                System.out.println("What Is The Student's ID:");
-                id=addStudent.nextLine();
+                
+            try {
+            
+                System.out.println("Enter student ID:");
+                id = addStudent.nextLine();
+
+                if (Main.school.searchStudent(id) != null) {
+                    System.out.println("Student with ID " + id + " already exists.");
+                    return;
+                }
+
+                if (!MyException.validateID(id)) {
+                    throw new MyException();
+                }
+
+            } catch (MyException e) {
+                System.out.println("Invalid ID format. Please enter in the correct format.");
+                return;
+            }
 
                 Main.school.printFeeInvoice(id);
                 break;
