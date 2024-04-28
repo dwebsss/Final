@@ -143,8 +143,10 @@ class StudentManagement extends Menus<Character> {
                 System.out.println("Enter student ID:");
                 id=addStudent.nextLine();
 
-                //}
-
+                if (!IDValidator.validateID(id)) {
+                    System.out.println("Invalid ID format. Please enter in the format LetterLetterDigitDigitDigitDigit (e.g., er7894).");
+                return; // Return to menu without proceeding
+            }
                 System.out.println("Enter the student's name:");
                 name=addStudent.nextLine();
                 System.out.println("What Is The Students GPA");
@@ -817,5 +819,16 @@ class FileInteractions {
         } catch (FileNotFoundException e) {
             System.out.println("file not found!");
         }
+    }
+}
+
+public class IDValidator {
+    private static final String ID_PATTERN = "[a-zA-Z]{2}\\d{4}";
+
+
+    public static boolean validateID (String id){
+        Pattern pattern = Pattern.compile(ID_PATTERN);
+        Matcher matcher = pattern.matcher(id);
+        return matcher.matches();
     }
 }
