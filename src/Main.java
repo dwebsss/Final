@@ -20,7 +20,7 @@ class MyException extends Throwable {
 
 // Abstract class for all menus to be based off
 abstract class Menus<T> {
-    
+
     // Prints out menu prompt and stores user's input selection
     abstract public T menuPromptAndSelect();
 
@@ -143,7 +143,7 @@ class StudentManagement extends Menus<Character> {
                 id=addStudent.nextLine();
 
                 //}
-                
+
                 System.out.println("Enter the student's name:");
                 name=addStudent.nextLine();
                 System.out.println("What Is The Students GPA");
@@ -166,13 +166,13 @@ class StudentManagement extends Menus<Character> {
                     }
                     System.out.println("Are They A Resident");
                     //not sure what this is?
-                    
+
                     //creating student
                     Student newStudent= new UndergraduateStudent(name,id,undergradCrnsTaken,gpa,false);
                     Main.school.addNewStudent(newStudent);
                 }
-                
-                //different inputs for different types of students 
+
+                //different inputs for different types of students
                 if (type.equals("PhD")){
                     System.out.println("ADDING AN : PHD Student");
                     String subject, advisorName;
@@ -248,15 +248,22 @@ class StudentManagement extends Menus<Character> {
     }
 }
 
-class CourseManagement extends Menus<Integer> {
-    @Override
-    public Integer menuPromptAndSelect() {
-        return 0;
+class CourseManagement extends Menus<Character> {
+    FileInteractions fileIntObject = new FileInteractions();
+    public Character menuPromptAndSelect() {
+        System.out.println("Course Management Menu:\n\nChoose one of:\n\nA - search for a class or lab using class/lab number");
+        return 'a' ;
     }
 
     @Override
     public void menuSelectCheck() {
-        System.out.println("Works");
+        char cMenuSelection;
+        cMenuSelection = Character.toLowerCase(menuPromptAndSelect());
+        switch (cMenuSelection){
+            case 'a' -> {
+                for()
+            }
+        }
     }
 }
 
@@ -295,11 +302,11 @@ abstract class Student {
 }
 
 class UndergraduateStudent extends Student{
-    
+
     private int[] undergradCrnsTaken;
     private double gpa;
     private boolean resident;
-    
+
     public int[] getUndergradCrnsTaken() {
         return undergradCrnsTaken;
     }
@@ -355,7 +362,7 @@ class UndergraduateStudent extends Student{
         double discount = 0;
         if (getGpa() >= 3.5 && price > 500) { // For some reason, it says that this is always false?
             discount = price * 0.25;
-            // print total minus discounted prices 
+            // print total minus discounted prices
         } else {
             System.out.println("\t\tTOTAL PAYMENTS\t\t$ " + price);
         }
@@ -370,7 +377,7 @@ abstract class GraduateStudent extends Student {
 }
 
 class PHDStudent extends GraduateStudent {
-    
+
     private int[] labsSupervised;
     private String advisor;
     private String researchSubject;
@@ -398,7 +405,7 @@ class PHDStudent extends GraduateStudent {
     public void setResearchSubject(String researchSubject) {
         this.researchSubject = researchSubject;
     }
-    
+
     public PHDStudent(String name, String id, int[] labsSupervised, String advisor, String researchSubject) {
         super(name, id);
         this.labsSupervised = labsSupervised.clone();
@@ -431,11 +438,11 @@ class  MSStudent extends GraduateStudent {
         this.gradCrnsTaken = gradCrnsTaken.clone();
 
     }
-    
+
     public void printInvoice() {
         double price = 0;
         double basePrice = 300.00;
-        double health = 35.00
+        double health = 35.00;
 
         System.out.println("\nVALENCE COLLEGE\nORLANDO FL 10101");
         System.out.println("-----------------------------");
@@ -444,140 +451,142 @@ class  MSStudent extends GraduateStudent {
         System.out.println("CRN\tCR_PREFIX\tCR_HOURS");
 
         for (int i = 0; i < this.gradCrnsTaken.length; i++) {
-            System.out.printf(); //...
+            System.out.println(); //...
         }
         System.out.println("\n\t\tHealth & id Fees  $ " + health);
         System.out.println("\n---------------------------------");
         System.out.println("\t\tTOTAL PAYMENTS\t\t$ " + price);
-}
-
-class studentNode {
-
-    private Student e;
-    private studentNode next;
-
-    public studentNode(Student e){
-        this.e=e;
-        this.next=null;
     }
 
-    public Student getStudent(){
-        return e;
-    }
+    class studentNode {
 
-    public studentNode getNext(){
-        return next;
-    }
+        private Student e;
+        private studentNode next;
 
-    public void setNext(studentNode next) {
-        this.next = next;
-    }
-}
-
-class studentLinkedList{
-    studentNode school;
-
-    public studentLinkedList(){
-        school=null;
-    }
-
-    //Adds a new student to the linked list 
-    public void addNewStudent(Student e){
-        studentNode newNode=new studentNode(e);
-
-        // Checks if the school is null if the newNode is the first student
-        if(school==null){
-            school=newNode;
-            return;
+        public studentNode(Student e) {
+            this.e = e;
+            this.next = null;
         }
-        
-        studentNode current=school;
-        
-        while(current!=null){
-            if(current.getNext()==null){
-                current.setNext(newNode);
+
+        public Student getStudent() {
+            return e;
+        }
+
+        public studentNode getNext() {
+            return next;
+        }
+
+        public void setNext(studentNode next) {
+            this.next = next;
+        }
+    }
+
+    class studentLinkedList {
+        studentNode school;
+
+        public studentLinkedList() {
+            school = null;
+        }
+
+        //Adds a new student to the linked list
+        public void addNewStudent(Student e) {
+            studentNode newNode = new studentNode(e);
+
+            // Checks if the school is null if the newNode is the first student
+            if (school == null) {
+                school = newNode;
                 return;
             }
-            current=current.getNext();
+
+            studentNode current = school;
+
+            while (current != null) {
+                if (current.getNext() == null) {
+                    current.setNext(newNode);
+                    return;
+                }
+                current = current.getNext();
+            }
         }
-    }
 
-    // Search the student by ID
-    public void searchStudent(String id){
+        // Search the student by ID
+        public void searchStudent(String id) {
 
-        studentNode current=school;
-        while (current != null){
-            if (current.getStudent().getId().equals(id)){
-                System.out.println(current.getStudent());
+            studentNode current = school;
+            while (current != null) {
+                if (current.getStudent().getId().equals(id)) {
+                    System.out.println(current.getStudent());
+                    return;
+                }
+                current = current.getNext();
+            }
+            System.out.println("Student Not Found");
+            return;
+        }
+
+        // Deletes the student by id
+        public void deleteStudent(String id) {
+
+            // If there are no students in the school, return
+            if (school == null) {
                 return;
             }
-            current=current.getNext();
-        }
-        System.out.println("Student Not Found");
-        return;
-    }
 
-    // Deletes the student by id
-    public void deleteStudent(String id){
-
-        // If there are no students in the school, return
-        if(school==null){
-            return;
-        }
-
-        // If the first student is being deleted, return
-        if(school.getStudent().getId().equals(id)){
-            school=school.getNext();
-            return;
-        }
-
-        studentNode prev=school;
-        studentNode current=school.getNext();
-
-        while(current!=null){
-            if (current.getStudent().getId().equals(id)){
-                prev.setNext(current.getNext());
-                System.out.println(current.getStudent().getName() +" Has Been Successfully Deleted");
+            // If the first student is being deleted, return
+            if (school.getStudent().getId().equals(id)) {
+                school = school.getNext();
                 return;
             }
-            prev=current;
-            current=current.getNext();
-        }
-        System.out.println("Student Not Found");
-        return;
-    }
-    
-    // Prints all students in the linked list
-    // Implementation for grouping based on class
-    public void printListStudents(){
-        if (school== null){
+
+            studentNode prev = school;
+            studentNode current = school.getNext();
+
+            while (current != null) {
+                if (current.getStudent().getId().equals(id)) {
+                    prev.setNext(current.getNext());
+                    System.out.println(current.getStudent().getName() + " Has Been Successfully Deleted");
+                    return;
+                }
+                prev = current;
+                current = current.getNext();
+            }
+            System.out.println("Student Not Found");
             return;
         }
 
-        studentNode current=school;
-        while(current!= null){
-            System.out.println("- " + current.getStudent().getName());
-            current=current.getNext();
-        }
-        return;
-    }
-
-    // Print fee invoice based on Id
-    public void printFeeInvoice(String id){
-        if (school == null){
-            return;
-        }
-
-        studentNode current= school;
-        while (current != null){
-            if(current.getStudent().getId().equals(id)){
-                current.getStudent().printInvoice();
+        // Prints all students in the linked list
+        // Implementation for grouping based on class
+        public void printListStudents() {
+            if (school == null) {
                 return;
             }
-            current=current.getNext();
+
+            studentNode current = school;
+            while (current != null) {
+                System.out.println("- " + current.getStudent().getName());
+                current = current.getNext();
+            }
+            return;
         }
-        return;
+
+        // Print fee invoice based on Id
+        public void printFeeInvoice(String id) {
+            if (school == null) {
+                return;
+            }
+
+            studentNode current = school;
+            while (current != null) {
+                if (current.getStudent().getId().equals(id)) {
+                    current.getStudent().printInvoice();
+                    return;
+                }
+                current = current.getNext();
+            }
+            return;
+        }
     }
+
 }
 
 enum LectureType {
@@ -621,7 +630,7 @@ class Lab {
 
 class Lecture {
 
-    // Make setters and getters 
+    // Make setters and getters
     private String crn;
     private String prefix;
     private String lectureName;
@@ -633,11 +642,11 @@ class Lecture {
     private int creditHours;
 
     ArrayList<Lab> labs;
-    
+
     // _________________
 
     // Helper method-used in constructors to set up the common fields
-    private void LectureCommonInfoSetUp (String crn, String prefix, String lectureName, LectureType lectureType, LectureMode lectureMode) {
+    private void LectureCommonInfoSetUp(String crn, String prefix, String lectureName, LectureType lectureType, LectureMode lectureMode) {
         this.crn = crn;
         this.prefix = prefix;
         this.lectureName = lectureName;
@@ -646,28 +655,28 @@ class Lecture {
     }
 
     // Non-online with Labs
-    public Lecture(	String crn,
-                       String prefix,
-                       String lectureName,
-                       LectureType lectureType,
-                       LectureMode lectureMode,
-                       String classroom,
-                       boolean hasLabs,
-                       int creditHours,
-                       ArrayList<Lab> labs ) {
+    public Lecture(String crn,
+                   String prefix,
+                   String lectureName,
+                   LectureType lectureType,
+                   LectureMode lectureMode,
+                   String classroom,
+                   boolean hasLabs,
+                   int creditHours,
+                   ArrayList<Lab> labs) {
 
-        LectureCommonInfoSetUp(crn,prefix,lectureName,lectureType,lectureMode);
+        LectureCommonInfoSetUp(crn, prefix, lectureName, lectureType, lectureMode);
         this.classroom = classroom;
         this.hasLabs = hasLabs;
         this.creditHours = creditHours;
         this.labs = labs;
     }
-    
-    // Constructor for non-online without labs
-    public Lecture( String crn, String prefix, String lectureName, LectureType lectureType, LectureMode lectureMode, String classroom,
-                    boolean hasLabs, int creditHours) {
 
-        LectureCommonInfoSetUp(crn,prefix,lectureName,lectureType,lectureMode);
+    // Constructor for non-online without labs
+    public Lecture(String crn, String prefix, String lectureName, LectureType lectureType, LectureMode lectureMode, String classroom,
+                   boolean hasLabs, int creditHours) {
+
+        LectureCommonInfoSetUp(crn, prefix, lectureName, lectureType, lectureMode);
         this.classroom = classroom;
         this.hasLabs = hasLabs;
         this.creditHours = creditHours;
@@ -675,7 +684,7 @@ class Lecture {
 
     // Constructor for online lectures
     public Lecture(String crn, String prefix, String lectureName, LectureType lectureType, LectureMode lectureMode, int creditHours) {
-        LectureCommonInfoSetUp(crn,prefix,lectureName,lectureType,lectureMode);
+        LectureCommonInfoSetUp(crn, prefix, lectureName, lectureType, lectureMode);
         this.classroom = classroom;
         this.hasLabs = hasLabs;
         this.creditHours = creditHours;
@@ -684,7 +693,7 @@ class Lecture {
     @Override
     public String toString() {
         String lectureAndLabs = crn + "," + prefix + "," + lectureName + "," + lectureType + ","
-                + lectureMode + "," + hasLabs + "," + creditHours+"\n";
+                + lectureMode + "," + hasLabs + "," + creditHours + "\n";
 
         // Printing corresponding labs
         if (labs != null) {
@@ -697,25 +706,61 @@ class Lecture {
     }
 }
 
-class FileInteractions{
-    private ArrayList<Lecture> classList = new ArrayList<>();
+class FileInteractions {
+    private ArrayList<Lecture> courseLabList = new ArrayList<>(); // array list of F2F/Mixed courses with labs
+    private ArrayList<Lecture> courseNoLabList = new ArrayList<>(); // array list of F2F/Mixed courses without labs
+    private ArrayList<Lecture> courseOnlineList = new ArrayList<>(); // array list of online courses
+    private ArrayList<Lab> LabList = new ArrayList<>(); //List of labs
+
+    public ArrayList<Lab> getLabList() {
+        return LabList;
+    }
+
+    public void setLabList(ArrayList<Lab> labList) {
+        LabList = labList;
+    }
+
     File lecfile = new File("lec.txt");
-    public void initialize(){
-        try{
+
+    public ArrayList<Lecture> getCourseLabList() {
+        return courseLabList;
+    }
+
+    public void setCourseLabList(ArrayList<Lecture> courseLabList) {
+        this.courseLabList = courseLabList;
+    }
+
+    public ArrayList<Lecture> getCourseNoLabList() {
+        return courseNoLabList;
+    }
+
+    public void setCourseNoLabList(ArrayList<Lecture> courseNoLabList) {
+        this.courseNoLabList = courseNoLabList;
+    }
+
+    public ArrayList<Lecture> getCourseOnlineList() {
+        return courseOnlineList;
+    }
+
+    public void setCourseOnlineList(ArrayList<Lecture> courseOnlineList) {
+        this.courseOnlineList = courseOnlineList;
+    }
+
+    public void initialize() {
+        try {
             boolean shouldReadLine = true;
             Scanner fileRead = new Scanner(lecfile);
             String line;
             String[] readLine = {};
-            while(fileRead.hasNextLine()){
+            while (fileRead.hasNextLine()) {
                 //if the lab section has read the line, we do not want to read it again
-                if(shouldReadLine) {
+                if (shouldReadLine) {
                     line = fileRead.nextLine();
                     readLine = line.split(",");
-                }
-                else{
+                } else {
                     shouldReadLine = true; //next iteration read line
                 }
-                if (readLine.length == 8){
+                if (readLine.length == 8) {
                     String crn = readLine[0];
                     String prefix = readLine[1];
                     String title = readLine[2];
@@ -724,34 +769,52 @@ class FileInteractions{
                     String classroom = readLine[5];
                     String hasLabPre = readLine[6];
                     boolean hasLab = false;
-                    switch (hasLabPre.toLowerCase()){
-                        case "yes" -> {hasLab = true;}
-                        case  "no" -> {hasLab = false;}
+                    switch (hasLabPre.toLowerCase()) {
+                        case "yes" -> {
+                            hasLab = true;
+                        }
+                        case "no" -> {
+                            hasLab = false;
+                        }
                     }
                     int creditHours = Integer.parseInt(readLine[7]);
                     boolean fileToggle = true;
-                    ArrayList<Lab> labList = new ArrayList<>();
-                    if(hasLab){
+                    if (hasLab) {
+                        ArrayList<Lab> labList = new ArrayList<>();
                         shouldReadLine = false;
                         String nextLine = fileRead.nextLine();
                         readLine = nextLine.split(",");
                         while (readLine.length == 2) {
-                                String crnLab = readLine[0];
-                                String clasroomLab = readLine[1];
-                                Lab newLab = new Lab(crnLab, clasroomLab);
-                                labList.add(newLab);
-                                nextLine = fileRead.nextLine();
-                                readLine = nextLine.split(",");
+                            String crnLab = readLine[0];
+                            String clasroomLab = readLine[1];
+                            Lab newLab = new Lab(crnLab, clasroomLab);
+                            labList.add(newLab);
+                            LabList.add(newLab);
+                            nextLine = fileRead.nextLine();
+                            readLine = nextLine.split(",");
                         }
+                        Lecture newCourse = new Lecture(crn, prefix, title, lecType, lecMode, classroom, hasLab, creditHours, labList);
+                        courseLabList.add(newCourse);
                     }
-                    Lecture newCourse = new Lecture(crn,prefix,title,lecType,lecMode,classroom,hasLab,creditHours,labList);
-                    classList.add(newCourse);
+                    else{
+                        Lecture newCourse = new Lecture(crn, prefix, title, lecType, lecMode, classroom, hasLab, creditHours);
+                        courseNoLabList.add(newCourse);
+                    }
+
+                }
+                else if(readLine.length == 6){
+                    String crn = readLine[0];
+                    String prefix = readLine[1];
+                    String title = readLine[2];
+                    LectureType lecType = LectureType.valueOf(readLine[3]);
+                    LectureMode lecMode = LectureMode.valueOf(readLine[4]);
+                    int creditHours = Integer.parseInt(readLine[5]);
+                    Lecture newCourse = new Lecture(crn,prefix,title,lecType,lecMode,creditHours);
+                    courseOnlineList.add(newCourse);
                 }
             }
-        }
-        catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             System.out.println("file not found!");
         }
     }
-}
 }
