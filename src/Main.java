@@ -1,6 +1,7 @@
 //Group Names: 
 //Aridsondez Jerome 
 //Abrar Aurora
+//Mohamed Moussa
 
 
 import java.io.File;
@@ -353,8 +354,8 @@ class StudentManagement extends Menus<Character> {
 class CourseManagement extends Menus<Character> {
     FileInteractions fileIntObject = new FileInteractions();
     public Character menuPromptAndSelect() {
-        System.out.println("Course Management Menu:\n\nChoose one of:\n\nA - search for a class or lab using class/lab number");
-        return 'a' ;
+        System.out.println("Course Management Menu:\n\nChoose one of:\n\nA - search for a class or lab using class/lab number\nB - delete a class\nC - Add a lab to a class\nX – Back to main menu");
+        return 'b' ;
     }
 
     @Override
@@ -363,8 +364,71 @@ class CourseManagement extends Menus<Character> {
         cMenuSelection = Character.toLowerCase(menuPromptAndSelect());
         switch (cMenuSelection){
             case 'a' -> {
-               // for()
+                System.out.println("Enter the Lab/course number you want to look up:");
+                Scanner crnScan = new Scanner(System.in);
+                int selectionNum = crnScan.nextInt();
+                boolean negativeFlag = true;
+                for (Lecture course: fileIntObject.getAllCourseList()){
+                    if (Integer.parseInt(course.getCrn()) == selectionNum){
+                        System.out.print("[" + course.getCrn() + "-" + course.getPrefix() + "-" + course.getLectureName());
+                        if(course.getLectureMode() == LectureMode.ONLINE){
+                            System.out.println("-Online" + "]");
+                            negativeFlag = false;
+                        }
+                        else if(course.getLectureMode() == LectureMode.F2F || course.getLectureMode() == LectureMode.MIXED){
+                            System.out.println("-" + course.getLectureType() + "-" + course.getClassroom() + "]");
+                            negativeFlag = false;
+                        }
+                    }
+                    else{
+                        if (course.getLectureMode() != LectureMode.ONLINE){
+                            if(course.isHasLabs()){
+                                for(Lab lab: course.getLabs()) {
+                                    if (Integer.parseInt(lab.getCrn()) == selectionNum){
+                                        System.out.println("Lab for:" + "[" + course.getCrn() + "-" + course.getPrefix() + "-" + course.getLectureName() +"-" + course.getLectureType() + "-" + course.getClassroom()+ "]");
+                                        System.out.println("Lab info:" + lab.getCrn() + "--" + lab.getClassroom());
+                                        negativeFlag = false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if (negativeFlag){
+                    System.out.println("Course/Lab was not found :(");
+                }
             }
+
+            case 'b' -> {System.out.println("Enter the Lab/course number you want deleted:");
+                    Scanner crnScan = new Scanner(System.in);
+                    int selectionNum = crnScan.nextInt();
+                    ArrayList<Lecture> dummyCourseList = new ArrayList<>(fileIntObject.getAllCourseList());
+                    boolean negativeflag = true;
+                    for(Lecture course: dummyCourseList){
+                        if(Integer.parseInt(course.getCrn()) == selectionNum && !course.isHasLabs()){
+                            System.out.println("[" + course.getCrn() + "," + course.getPrefix() + "," + course.getLectureName() + "] deleted!");
+                            fileIntObject.getAllCourseList().remove(course);
+                            negativeflag = false;
+                        }
+                    }
+                    if (negativeflag){
+                        System.out.println("Class not found!");
+                    }
+            }
+            case 'c' -> {Scanner crnScan = new Scanner(System.in);
+                System.out.println("Enter the course you'd like to add a lab to:");
+                int selectionNum = crnScan.nextInt();
+                for(Lecture course: fileIntObject.getAllCourseList()){
+                    if(Integer.parseInt(course.getCrn()) == selectionNum && !course.isHasLabs()) {
+                            System.out.println("enter the information for the lab in this format -> crn,classroom :");
+                            String unparsedInput = crnScan.nextLine();
+                            String[] labInfo = unparsedInput.split(",");
+                            Lab newLab = new Lab(labInfo[0],labInfo[1]);
+                            course.getLabs().add(newLab);
+                        }
+                    }
+            }
+            case 'x' -> {}
         }
     }
 }
@@ -709,7 +773,7 @@ class studentLinkedList {
 
 
 enum LectureType {
-    GRAD, UNDERGRAD;
+    GRADUATE, UNDERGRADUATE;
 }
 
 enum LectureMode {
@@ -762,6 +826,17 @@ class Lecture {
 
     ArrayList<Lab> labs;
 
+    public String labReturn(){
+       if(hasLabs){
+           return "Yes";
+       }
+       if(!hasLabs){
+           return "No";
+       }
+       else {
+           return "";
+       }
+    }
     // _________________
 
     // Helper method-used in constructors to set up the common fields
@@ -823,13 +898,97 @@ class Lecture {
         }
         return lectureAndLabs;
     }
+
+    public String getCrn() {
+        return crn;
+    }
+
+    public void setCrn(String crn) {
+        this.crn = crn;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
+    public String getLectureName() {
+        return lectureName;
+    }
+
+    public void setLectureName(String lectureName) {
+        this.lectureName = lectureName;
+    }
+
+    public LectureType getLectureType() {
+        return lectureType;
+    }
+
+    public void setLectureType(LectureType lectureType) {
+        this.lectureType = lectureType;
+    }
+
+    public LectureMode getLectureMode() {
+        return lectureMode;
+    }
+
+    public void setLectureMode(LectureMode lectureMode) {
+        this.lectureMode = lectureMode;
+    }
+
+    public String getClassroom() {
+        return classroom;
+    }
+
+    public void setClassroom(String classroom) {
+        this.classroom = classroom;
+    }
+
+    public boolean isHasLabs() {
+        return hasLabs;
+    }
+
+    public void setHasLabs(boolean hasLabs) {
+        this.hasLabs = hasLabs;
+    }
+
+    public int getCreditHours() {
+        return creditHours;
+    }
+
+    public void setCreditHours(int creditHours) {
+        this.creditHours = creditHours;
+    }
+
+    public ArrayList<Lab> getLabs() {
+        return labs;
+    }
+
+    public void setLabs(ArrayList<Lab> labs) {
+        this.labs = labs;
+    }
 }
 
 class FileInteractions {
+
     private ArrayList<Lecture> courseLabList = new ArrayList<>(); // array list of F2F/Mixed courses with labs
     private ArrayList<Lecture> courseNoLabList = new ArrayList<>(); // array list of F2F/Mixed courses without labs
     private ArrayList<Lecture> courseOnlineList = new ArrayList<>(); // array list of online courses
     private ArrayList<Lab> LabList = new ArrayList<>(); //List of labs
+    private static ArrayList<Lecture> allCourseList = new ArrayList<>();
+
+
+
+    public ArrayList<Lecture> getAllCourseList() {
+        return allCourseList;
+    }
+
+    public void setAllCourseList(ArrayList<Lecture> allCourseList) {
+        this.allCourseList = allCourseList;
+    }
 
     public ArrayList<Lab> getLabList() {
         return LabList;
@@ -883,8 +1042,8 @@ class FileInteractions {
                     String crn = readLine[0];
                     String prefix = readLine[1];
                     String title = readLine[2];
-                    LectureType lecType = LectureType.valueOf(readLine[3]);
-                    LectureMode lecMode = LectureMode.valueOf(readLine[4]);
+                    LectureType lecType = LectureType.valueOf(readLine[3].toUpperCase());
+                    LectureMode lecMode = LectureMode.valueOf(readLine[4].toUpperCase());
                     String classroom = readLine[5];
                     String hasLabPre = readLine[6];
                     boolean hasLab = false;
@@ -914,10 +1073,12 @@ class FileInteractions {
                         }
                         Lecture newCourse = new Lecture(crn, prefix, title, lecType, lecMode, classroom, hasLab, creditHours, labList);
                         courseLabList.add(newCourse);
+                        allCourseList.add(newCourse);
                     }
                     else{
                         Lecture newCourse = new Lecture(crn, prefix, title, lecType, lecMode, classroom, hasLab, creditHours);
                         courseNoLabList.add(newCourse);
+                        allCourseList.add(newCourse);
                     }
 
                 }
@@ -925,16 +1086,34 @@ class FileInteractions {
                     String crn = readLine[0];
                     String prefix = readLine[1];
                     String title = readLine[2];
-                    LectureType lecType = LectureType.valueOf(readLine[3]);
-                    LectureMode lecMode = LectureMode.valueOf(readLine[4]);
+                    LectureType lecType = LectureType.valueOf(readLine[3].toUpperCase());
+                    LectureMode lecMode = LectureMode.valueOf(readLine[4].toUpperCase());
                     int creditHours = Integer.parseInt(readLine[5]);
                     Lecture newCourse = new Lecture(crn,prefix,title,lecType,lecMode,creditHours);
                     courseOnlineList.add(newCourse);
+                    allCourseList.add(newCourse);
                 }
             }
         } catch (FileNotFoundException e) {
             System.out.println("file not found!");
+
         }
     }
 }
 
+class FileWriteIO {
+    FileInteractions fileIntDummy = new FileInteractions();
+    public void fileWriter(){
+        try {
+            FileWriter fileOverwrite = new FileWriter("lec.txt", false);
+            for(Lecture course: fileIntDummy.getAllCourseList()){
+                if(course.isHasLabs()){
+                    fileOverwrite.write(course.getCrn() + "," + course.getPrefix() + "," + course.getLectureName() + "," + course.getLectureType() + "," + course.getLectureMode() + "," + );
+                }
+            }
+        }
+        catch (IOException e){
+            System.out.println("Error reading/writing to file!!!");
+        }
+    }
+}
